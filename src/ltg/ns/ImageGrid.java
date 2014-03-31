@@ -49,6 +49,9 @@ public class ImageGrid extends Screen {
 					_imageSets.get(i).display(loc.x, loc.y);
 				
 				}
+				if(checkTime(3000)){
+					_imageSets.get((int)_p.random(0, _imageSets.size())).changeImage();
+				}
 		}
 	}
 

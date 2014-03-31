@@ -9,11 +9,11 @@ import ltg.ns.objects.Screen;
 public class ImageFull extends Screen {
 	protected PImage _img;
 	protected ImageSet _imageSet;
-	
+
 	public ImageFull(){
 		super();
 	}
-	
+
 	public ImageFull(AmbientVizMain p) {
 		super(p);
 		_imageSet = new ImageSet(_p, 4);
@@ -27,6 +27,9 @@ public class ImageFull extends Screen {
 			//drawImage();
 			_p.background(255);
 			_imageSet.display(_x, _y);
+			if(checkTime(3000)){
+				_imageSet.changeImage();
+			}
 		}
 	}
 }
