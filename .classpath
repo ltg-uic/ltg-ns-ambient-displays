@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/junit-3.8.2.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/ltg-java-event-handler-2.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/simple-java-xmpp-client-2.0.0.jar"/>
+	<classpathentry kind="lib" path="core.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/ani.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/cue.language.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/jsoup-1.7.2.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/WordCram.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
