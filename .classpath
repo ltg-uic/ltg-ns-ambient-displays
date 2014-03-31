@@ -12,5 +12,11 @@
 	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/cue.language.jar"/>
 	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/jsoup-1.7.2.jar"/>
 	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/WordCram.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/smack-3.4.1-0cec571.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/smackx-3.4.1-0cec571.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/jsonj-1.42-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/jackson-databind-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/jackson-core-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/jackson-annotations-2.2.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

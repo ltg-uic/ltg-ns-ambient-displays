@@ -1,6 +1,11 @@
 package ltg.ns;
 
 
+
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import ltg.commons.ltg_event_handler.LTGEvent;
 import ltg.ns.objects.Note;
 import ltg.ns.objects.Screen;
 
@@ -16,6 +21,15 @@ public class NotesFull extends Screen{
 		super(p);
 		_note = new Note(_p);
 		_note.setDimensions(_width, _height);
+		ObjectNode node = JsonNodeFactory.instance.objectNode();
+		node.put("class", "ben");
+		LTGEvent eventInit = new LTGEvent("notes_full_init", null, null, node);
+		_p.eh.generateEvent(eventInit);
+	}
+	
+	@Override
+	public void update(String note){
+		_note.updateNote(note);
 	}
 
 	@Override
@@ -24,9 +38,9 @@ public class NotesFull extends Screen{
 		if(isActive() && !isLoading()){
 			_p.background(255);
 			_note.display(_x, _y);
-			if(checkTime(3000)){
-				_note.changeNote();
-			}
+//			if(checkTime(3000)){
+//				_note.changeNote();
+//			}
 		}
 	}
 }

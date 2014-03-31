@@ -124,6 +124,10 @@ public class Screen{
 		return false;
 	}
 
+	public void update(String note) {
+		// TODO Auto-generated method stub
+	}
+
 }
 
 

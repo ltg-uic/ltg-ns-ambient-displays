@@ -2,10 +2,13 @@ package ltg.ns;
 
 import java.util.ArrayList;
 
+import org.omg.CORBA._PolicyStub;
+
 import ltg.commons.ltg_event_handler.LTGEvent;
 import ltg.commons.ltg_event_handler.SingleChatLTGEventHandler;
 import ltg.commons.ltg_event_handler.SingleChatLTGEventListener;
 import ltg.ns.objects.Screen;
+import ltg.ns.update.Updater;
 import processing.core.PApplet;
 import processing.core.PFont;
 import de.looksgood.ani.*;
@@ -13,21 +16,23 @@ import de.looksgood.ani.*;
 
 public class AmbientVizMain extends PApplet{
 
-	SingleChatLTGEventHandler eh;
-
+	public SingleChatLTGEventHandler eh;
+	boolean xmpp = true;
+	
 	private String chatRoom = "nh-test@conference.ltg.evl.uic.edu";
 	private String botUsername = "hg-beacon-test@ltg.evl.uic.edu";
 	private String botPassword = "hgbeacon";
 
 	ArrayList<Screen> screens = new ArrayList<Screen>(); 
 	
-	Screen menu, wordleCollective, wordleGrid, imageFull, imageGrid, scoreFull, scoreGrid, numNotesFull, numNotesGrid, notesFull, notesGrid;
+	public Screen menu, wordleCollective, wordleGrid, imageFull, imageGrid, scoreFull, scoreGrid, numNotesFull, numNotesGrid, notesFull, notesGrid;
 
-	int numOfChannels = 10;
+	Updater updater;
+	
+	int numOfChannels = 8;
 	public int bgColor = color(255, 255, 255);
 	int currentChannel = -1;
 	int borderFullChannels = 40;
-	boolean xmpp = false;
 	public PFont notesFont, notesNumFont;
 
 	public void setup(){
@@ -37,7 +42,17 @@ public class AmbientVizMain extends PApplet{
 		Ani.init(this);
 		notesFont = loadFont("AlNile-48.vlw");
 		notesNumFont = loadFont("AlNile-250.vlw");
+		updater = new Updater(this);
 
+		if(xmpp){
+			eh = new SingleChatLTGEventHandler(botUsername, botPassword, chatRoom);
+			eh.registerHandler("notes_full_init_r", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					updater.updateNoteFull(e);
+				}
+			});	
+			eh.runAsynchronously();
+		}
 		
 		menu = new ChannelMenu (this, numOfChannels, 5);
 		imageFull = new ImageFull(this);	
@@ -63,15 +78,7 @@ public class AmbientVizMain extends PApplet{
 
 
 		///
-		if(xmpp){
-			eh = new SingleChatLTGEventHandler(botUsername, botPassword, chatRoom);
-			eh.registerHandler("start", new SingleChatLTGEventListener() {
-				public void processEvent(LTGEvent e) {
-					eh.generateEvent(e);
-				}
-			});	
-			eh.runAsynchronously();
-		}
+
 
 		goToMenu();
 	}

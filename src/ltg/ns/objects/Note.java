@@ -6,10 +6,11 @@ import de.looksgood.ani.*;
 
 public class Note {
 	int _width, _height;
-	String _note, _title;
+	String _note, _nextNote, _title;
 	AmbientVizMain _p;
 	int _gTint;
 	PGraphics _pg1;
+	
 	
 
 	public Note(AmbientVizMain p) {
@@ -41,6 +42,7 @@ public class Note {
 	}
 	
 	public void resetTint(){
+		_note = _nextNote;
 		Ani.to(this, 2f, "_gTint", 255);
 	}
 	
@@ -59,5 +61,10 @@ public class Note {
 		_p.tint(255, _gTint);
 		_p.imageMode(_p.CENTER);
 		_p.image(_pg1, x, y);
+	}
+
+	public void updateNote(String note) {
+		_nextNote = note;
+		changeNote();
 	}
 }
