@@ -21,13 +21,19 @@ public class NotesFull extends Screen{
 		super(p);
 		_note = new Note(_p);
 		_note.setDimensions(_width, _height);
-		ObjectNode node = JsonNodeFactory.instance.objectNode();
-		node.put("class", "ben");
-		LTGEvent eventInit = new LTGEvent("notes_full_init", null, null, node);
-		_p.eh.generateEvent(eventInit);
+		sendInitRequest();
 	}
-	
-	@Override
+
+
+	public void sendInitRequest(){
+		if(_p.xmpp){
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			node.put("class", "ben");
+			LTGEvent eventInit = new LTGEvent("notes_full_init", null, null, node);
+			_p.eh.generateEvent(eventInit);
+		}
+	}
+
 	public void update(String note){
 		_note.updateNote(note);
 	}
@@ -38,9 +44,9 @@ public class NotesFull extends Screen{
 		if(isActive() && !isLoading()){
 			_p.background(255);
 			_note.display(_x, _y);
-//			if(checkTime(3000)){
-//				_note.changeNote();
-//			}
+			//			if(checkTime(3000)){
+			//				_note.changeNote();
+			//			}
 		}
 	}
 }

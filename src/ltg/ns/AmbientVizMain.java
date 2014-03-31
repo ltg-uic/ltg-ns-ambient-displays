@@ -25,15 +25,28 @@ public class AmbientVizMain extends PApplet{
 
 	ArrayList<Screen> screens = new ArrayList<Screen>(); 
 	
-	public Screen menu, wordleCollective, wordleGrid, imageFull, imageGrid, scoreFull, scoreGrid, numNotesFull, numNotesGrid, notesFull, notesGrid;
+	public ChannelMenu menu;
+	public WordleFull wordleCollective;
+	public WordleGrid wordleGrid;
+	public ImageFull imageFull;
+	public ImageGrid imageGrid;
+	Screen scoreFull, scoreGrid;
+	public NotesNumberGrid numNotesGrid;
+	public NotesNumberFull numNotesFull;
+	public NotesFull notesFull;
+	public NotesGrid notesGrid;
 
 	Updater updater;
 	
 	int numOfChannels = 8;
 	public int bgColor = color(255, 255, 255);
+	public int gridSquares = 9;
+	
+	
+	public PFont notesFont, notesNumFont;
+
 	int currentChannel = -1;
 	int borderFullChannels = 40;
-	public PFont notesFont, notesNumFont;
 
 	public void setup(){
 		size(displayWidth, displayHeight);
@@ -43,12 +56,19 @@ public class AmbientVizMain extends PApplet{
 		notesFont = loadFont("AlNile-48.vlw");
 		notesNumFont = loadFont("AlNile-250.vlw");
 		updater = new Updater(this);
-
+		
 		if(xmpp){
 			eh = new SingleChatLTGEventHandler(botUsername, botPassword, chatRoom);
 			eh.registerHandler("notes_full_init_r", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
+					println("update note full");
 					updater.updateNoteFull(e);
+				}
+			});	
+			eh.registerHandler("notes_grid_init_r", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					println("update note grid");
+					updater.updateNoteGrid(e);
 				}
 			});	
 			eh.runAsynchronously();

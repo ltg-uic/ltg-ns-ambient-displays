@@ -3,6 +3,10 @@ package ltg.ns;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import ltg.commons.ltg_event_handler.LTGEvent;
 import ltg.ns.objects.Note;
 import ltg.ns.objects.Screen;
 import ltg.ns.objects.Wordle;
@@ -24,6 +28,7 @@ public class NotesGrid extends Screen{
 		_lastChanged = 0;
 		_numRows = numOfRows;
 		_numCols = numOfColumns;
+		sendInitRequest();
 		setGridParameters();
 		initNotes();
 	}	
@@ -35,6 +40,18 @@ public class NotesGrid extends Screen{
 			n.setDimensions(_widthContent, _heightContent);
 			_notes.add(n);
 		}
+	}
+	
+	public void sendInitRequest(){
+		if(_p.xmpp){
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			LTGEvent eventInit = new LTGEvent("notes_grid_init", null, null, node);
+			_p.eh.generateEvent(eventInit);
+		}
+	}
+	
+	public void update(String note, int i){
+		_notes.get(i).updateNote(note);
 	}
 
 	public void display(){
