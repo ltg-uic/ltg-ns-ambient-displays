@@ -63,7 +63,7 @@ public class ImageGrid extends Screen {
 
 
 			}
-			if(checkTime(2000)){
+			if(checkTime(1000)){
 				for(int i=0; i<_imageSets.size(); i++){
 					_imageSets.get(i).changeBurstImage();
 				}

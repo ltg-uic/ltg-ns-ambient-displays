@@ -50,9 +50,6 @@ public class Updater {
 	}
 	
 	public void initImageGrid(LTGEvent e){ 
-		
-		_p.println("h");
-
 		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
 		for(int i=0; i < a.size(); i++){
 			ArrayNode b = (ArrayNode) a.get(i).get("burst");
@@ -61,10 +58,8 @@ public class Updater {
 			for(int j=0; j < b.size(); j++ ){
 				s.add(b.get(j).asText());
 			}
-			_p.println(s);
 			_p.imageGrid.update(s, i);
 		}
-		
 	}
 	
 	

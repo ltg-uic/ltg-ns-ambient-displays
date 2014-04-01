@@ -42,7 +42,7 @@ public class ImageFull extends Screen {
 			//drawImage();
 			_p.background(255);
 			_imageSet.display(_x, _y);
-			if(checkTime(5000)){
+			if(checkTime(1000)){
 				_imageSet.changeBurstImage();
 			}
 		}
