@@ -61,14 +61,22 @@ public class AmbientVizMain extends PApplet{
 			eh = new SingleChatLTGEventHandler(botUsername, botPassword, chatRoom);
 			eh.registerHandler("notes_full_init_r", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					println("update note full");
-					updater.updateNoteFull(e);
+					updater.initNoteFull(e);
 				}
 			});	
 			eh.registerHandler("notes_grid_init_r", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					println("update note grid");
-					updater.updateNoteGrid(e);
+					updater.initNoteGrid(e);
+				}
+			});	
+			eh.registerHandler("images_full_init_r", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					updater.initImageFull(e);
+				}
+			});	
+			eh.registerHandler("images_grid_init_r", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					updater.initImageGrid(e);
 				}
 			});	
 			eh.runAsynchronously();

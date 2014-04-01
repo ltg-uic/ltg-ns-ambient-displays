@@ -24,11 +24,9 @@ public class NotesFull extends Screen{
 		sendInitRequest();
 	}
 
-
 	public void sendInitRequest(){
 		if(_p.xmpp){
 			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			node.put("class", "ben");
 			LTGEvent eventInit = new LTGEvent("notes_full_init", null, null, node);
 			_p.eh.generateEvent(eventInit);
 		}

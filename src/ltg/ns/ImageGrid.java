@@ -3,6 +3,10 @@ package ltg.ns;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import ltg.commons.ltg_event_handler.LTGEvent;
 import ltg.ns.objects.ImageSet;
 import ltg.ns.objects.Screen;
 import processing.core.PVector;
@@ -22,7 +26,16 @@ public class ImageGrid extends Screen {
 		_numCols = numOfColumns;
 		setGridParameters();
 		initImageSets();
+		sendInitRequest();
 	}	
+
+	public void sendInitRequest(){
+		if(_p.xmpp){
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			LTGEvent eventInit = new LTGEvent("images_grid_init", null, null, node);
+			_p.eh.generateEvent(eventInit);
+		}
+	}
 
 	private void initImageSets(){
 		_imageSets = new ArrayList<ImageSet>();
@@ -34,26 +47,34 @@ public class ImageGrid extends Screen {
 	}
 
 	public void display(){
-		
+
 		super.display();
-		
+
 		if(isActive() && !isLoading()){
-			
-				_p.background(255);
-				
+
+			_p.background(255);
+
+			for(int i=0; i<_imageSets.size(); i++){
+
+				int currentRow = _p.floor(i / _numCols);
+				int currentCol = i % _numCols;
+				PVector loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY);
+				_imageSets.get(i).display(loc.x, loc.y);
+
+
+			}
+			if(checkTime(2000)){
 				for(int i=0; i<_imageSets.size(); i++){
-					
-					int currentRow = _p.floor(i / _numCols);
-					int currentCol = i % _numCols;
-					PVector loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY);
-					_imageSets.get(i).display(loc.x, loc.y);
-				
+					_imageSets.get(i).changeBurstImage();
 				}
-				if(checkTime(3000)){
-					_imageSets.get((int)_p.random(0, _imageSets.size())).changeImage();
-				}
+			}
 		}
 	}
+
+	public void update(ArrayList<String> urls, int i) {
+		_imageSets.get(i).setImages(urls);
+	}
+
 
 	public void setGridParameters(){
 		_xSpace  = _p.width/_numCols;
@@ -62,6 +83,5 @@ public class ImageGrid extends Screen {
 		_startY = _ySpace/2;
 		_widthContent = (_p.width - _xSpace*(_numCols-1) - _startX*2)*200f;
 		_heightContent = (_p.height - _ySpace*(_numRows-1) - _startY*2)*125f;
-		
 	}
 }

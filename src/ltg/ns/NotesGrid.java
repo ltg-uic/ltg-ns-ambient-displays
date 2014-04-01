@@ -67,9 +67,9 @@ public class NotesGrid extends Screen{
 					_notes.get(i).display(loc.x, loc.y);;
 				}
 				
-				if(checkTime(3000)){
-					_notes.get((int)_p.random(0, _notes.size())).changeNote();
-				}
+//				if(checkTime(3000)){
+//					_notes.get((int)_p.random(0, _notes.size())).changeNote();
+//				}
 
 		}
 		
