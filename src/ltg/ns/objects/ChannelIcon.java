@@ -22,13 +22,14 @@ public class ChannelIcon
 		_y = y;
 	}
 	
-	public ChannelIcon(AmbientVizMain p, float x, float y, float width, float height, int channelNumber){
+	public ChannelIcon(AmbientVizMain p, float x, float y, float width, float height, int channelNumber, String shapeURL){
 		_p = p;
 		_x = x;
 		_y = y;
 		_width = width;
 		_height = height;
 		_channelNumber = channelNumber;
+		setShape(shapeURL);
 	}
 	
 	

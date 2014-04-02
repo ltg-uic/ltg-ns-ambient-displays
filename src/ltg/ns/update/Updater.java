@@ -23,13 +23,10 @@ public class Updater {
 	}
 
 	public void initNoteFull(LTGEvent e){ 
-		
 		_p.notesFull.update(e.getPayload().get("note_body").asText());
-		
 	}
 	
 	public void initNoteGrid(LTGEvent e){
-		
 		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
 		if(a.size() == _p.gridSquares){
 			for(int i=0; i < a.size(); i++ ){
@@ -38,15 +35,13 @@ public class Updater {
 		}
 	}
 	
-	public void initImageFull(LTGEvent e){ 
-		
+	public void initImageFull(LTGEvent e){ 		
 		ArrayNode a = (ArrayNode) e.getPayload().get("burst");
 		ArrayList<String> s = new ArrayList<String>();
 		for(int i=0; i < a.size(); i++ ){
 			s.add(a.get(i).asText());
 		}
 		_p.imageFull.update(s);
-		
 	}
 	
 	public void initImageGrid(LTGEvent e){ 
@@ -61,6 +56,55 @@ public class Updater {
 			_p.imageGrid.update(s, i);
 		}
 	}
+	
+	public void initWordleFull(LTGEvent e){ 	
+		String a = e.getPayload().get("wordle_text").asText();
+		_p.wordleCollective.update(a);
+	}
+	
+	public void initWordleGrid(LTGEvent e){ 
+		
+		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
+		for(int i=0; i < a.size(); i++){
+			String s = a.get(i).get("wordle_text").asText();
+			_p.wordleGrid.update(s, i);
+		}
+	}
+//	
+//	public void initWordleGrid(LTGEvent e){ 
+//		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
+//		for(int i=0; i < a.size(); i++){
+//			ArrayNode b = (ArrayNode) a.get(i).get("burst");
+//			ArrayList<String> s = new ArrayList<String>();
+//
+//			for(int j=0; j < b.size(); j++ ){
+//				s.add(b.get(j).asText());
+//			}
+//			_p.imageGrid.update(s, i);
+//		}
+//	}
+//	
+//	public void initScoreFull(LTGEvent e){ 		
+//		ArrayNode a = (ArrayNode) e.getPayload().get("burst");
+//		ArrayList<String> s = new ArrayList<String>();
+//		for(int i=0; i < a.size(); i++ ){
+//			s.add(a.get(i).asText());
+//		}
+//		_p.imageFull.update(s);
+//	}
+//	
+//	public void initScoreGrid(LTGEvent e){ 
+//		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
+//		for(int i=0; i < a.size(); i++){
+//			ArrayNode b = (ArrayNode) a.get(i).get("burst");
+//			ArrayList<String> s = new ArrayList<String>();
+//
+//			for(int j=0; j < b.size(); j++ ){
+//				s.add(b.get(j).asText());
+//			}
+//			_p.imageGrid.update(s, i);
+//		}
+//	}
 	
 	
 	

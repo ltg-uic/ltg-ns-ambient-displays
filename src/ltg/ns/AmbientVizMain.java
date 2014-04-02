@@ -17,7 +17,9 @@ import de.looksgood.ani.*;
 public class AmbientVizMain extends PApplet{
 
 	public SingleChatLTGEventHandler eh;
-	boolean xmpp = true;
+	boolean xmpp = false;
+	int numOfChannels = 10;
+
 	
 	private String chatRoom = "nh-test@conference.ltg.evl.uic.edu";
 	private String botUsername = "hg-beacon-test@ltg.evl.uic.edu";
@@ -30,31 +32,32 @@ public class AmbientVizMain extends PApplet{
 	public WordleGrid wordleGrid;
 	public ImageFull imageFull;
 	public ImageGrid imageGrid;
-	Screen scoreFull, scoreGrid;
 	public NotesNumberGrid numNotesGrid;
 	public NotesNumberFull numNotesFull;
 	public NotesFull notesFull;
 	public NotesGrid notesGrid;
+	public ScoreFull scoreFull;
+	public ScoreGrid scoreGrid;
+
 
 	Updater updater;
 	
-	int numOfChannels = 8;
 	public int bgColor = color(255, 255, 255);
+	public int last5MinColor = color(0, 125, 224);
+
 	public int gridSquares = 9;
-	
-	
-	public PFont notesFont, notesNumFont;
+	public PFont normalFont, boldFont;
+	public int borderFullChannels = 40;
 
 	int currentChannel = -1;
-	int borderFullChannels = 40;
 
 	public void setup(){
 		size(displayWidth, displayHeight);
 		background(bgColor);
 		smooth();
 		Ani.init(this);
-		notesFont = loadFont("AlNile-48.vlw");
-		notesNumFont = loadFont("AlNile-250.vlw");
+		normalFont = loadFont("HelveticaNeue-100.vlw");
+		boldFont = loadFont("HelveticaNeue-Bold-100.vlw");
 		updater = new Updater(this);
 		
 		if(xmpp){
@@ -79,35 +82,53 @@ public class AmbientVizMain extends PApplet{
 					updater.initImageGrid(e);
 				}
 			});	
+			
+			eh.registerHandler("wordle_full_init_r", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					updater.initWordleFull(e);
+				}
+			});	
+			
+			eh.registerHandler("wordle_grid_init_r", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					updater.initWordleGrid(e);
+				}
+			});	
+			
 			eh.runAsynchronously();
 		}
 		
 		menu = new ChannelMenu (this, numOfChannels, 5);
-		imageFull = new ImageFull(this);	
-		imageGrid = new ImageGrid(this, 3, 3);	
-		wordleCollective = new WordleFull(this);
-		wordleGrid = new WordleGrid(this, 3, 3);
+		
+		
 		notesFull = new NotesFull(this);
-		notesGrid = new NotesGrid(this, 3, 3);
 		numNotesFull = new NotesNumberFull(this);
+		scoreFull = new ScoreFull(this);
+		imageFull = new ImageFull(this);	
+		wordleCollective = new WordleFull(this);
+
+		notesGrid = new NotesGrid(this, 3, 3);
 		numNotesGrid = new NotesNumberGrid(this, 3, 3);
+		scoreGrid = new ScoreGrid(this, 3, 3);
+		imageGrid = new ImageGrid(this, 3, 3);	
+		wordleGrid = new WordleGrid(this, 3, 3);
+
 
 		
 		menu.setActive(false);
-
-		screens.add(imageGrid);
+		screens.add(notesFull);
+		screens.add(numNotesFull);
+		screens.add(scoreFull);
 		screens.add(imageFull);
 		screens.add(wordleCollective);
-		screens.add(wordleGrid);
-		screens.add(notesFull);
-		screens.add(notesGrid);
-		screens.add(numNotesFull);
-		screens.add(numNotesGrid);
 
+		screens.add(notesGrid);
+		screens.add(numNotesGrid);
+		screens.add(scoreGrid);
+		screens.add(imageGrid);
+		screens.add(wordleGrid);
 
 		///
-
-
 		goToMenu();
 	}
 

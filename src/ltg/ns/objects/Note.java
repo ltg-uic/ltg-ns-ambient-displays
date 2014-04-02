@@ -1,6 +1,7 @@
 package ltg.ns.objects;
 
 import processing.core.PGraphics;
+import processing.core.PShape;
 import ltg.ns.AmbientVizMain;
 import de.looksgood.ani.*;
 
@@ -10,23 +11,23 @@ public class Note {
 	AmbientVizMain _p;
 	int _gTint;
 	PGraphics _pg1;
+	PShape _background;
 	
 	
 
 	public Note(AmbientVizMain p) {
 		_p = p;
 		_gTint = 255;
-		_title = "Note";
+		_title = "Latest note";
+//		_background = _p.loadShape("ge_note.svg");
+		_background = _p.loadShape("ge_note.svg");
+
 		_note = "Lorem ipsum dolor sit amet,"
 				+ " consectetur adipisicing elit, sed do eiusmod "
-				+ "tempor incididunt ut labore et dolore magna aliqua. "
-				+ "Ut enim ad minim veniam, quis nostrud exercitation ullamco"
-				+ " laboris nisi ut aliquip ex ea commodo consequat. Duis aute"
-				+ " irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur";
+				+ "tempor incididunt ut labore et dolore magna aliqua. ";
 		_width = 200;
 		_height = 100;
 		_pg1 = _p.createGraphics(_width, _height);
-		_pg1.textFont(_p.notesFont);
 		
 		
 	}
@@ -48,14 +49,22 @@ public class Note {
 	
 	public void display(float x, float y) {
 		_pg1.beginDraw();
+		
 		_pg1.background(_p.bgColor);
+		_pg1.shape(_background,0, 0, _pg1.width, _pg1.height);
+		
+		//title
+		_pg1.fill(255);
+		_pg1.textFont(_p.boldFont);
+		_pg1.textSize(0.12f*_height);
+		_pg1.text(_title, (int)(0.1f*_pg1.height), (int)(0.025f*_pg1.height), (int)(_pg1.width-0.2f*_pg1.height), (int)(_pg1.height-0.2f*_pg1.height));
+		
+		
+		//body
 		_pg1.fill(0);
-		
-		_pg1.textSize(0.15f*_height);
-		_pg1.text(_title, (int)(0.1f*_height), (int)(0.15f*_height), (int)(_width-0.2f*_height), (int)(_height-0.2f*_height));
-		
-		_pg1.textSize(0.05f*_height);
-		_pg1.text(_note, (int)(0.1f*_height), (int)(0.4f*_height), (int)(_width-0.2f*_height), (int)(_height-0.4f*_height));
+		_pg1.textFont(_p.normalFont);
+		_pg1.textSize(0.1f*_height);
+		_pg1.text(_note, (int)(0.1f*_pg1.height), (int)(0.2f*_pg1.height), (int)(_pg1.width-0.2f*_pg1.height), (int)(_pg1.height-0.4f*_pg1.height));
 		_pg1.endDraw();
 		
 		_p.tint(255, _gTint);

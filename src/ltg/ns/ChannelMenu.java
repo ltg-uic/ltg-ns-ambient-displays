@@ -20,14 +20,30 @@ public class ChannelMenu extends Screen{
 		super(p);
 		_icons = new ArrayList<ChannelIcon>();
 		_numCols = numOfColumns;
-		for(int i = 0; i<numOfChannels; i++){
-			ChannelIcon icon = new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols+1), i);
-			icon.setShape("test1-02.svg");
-			_icons.add(icon);
-		}
+		
+
+		//initialize icons
+		int i = 0;		
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), i, "Menu_Selector_notes_s.svg"));
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), ++i, "Menu_Selector_no_notes_s.svg"));		
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), ++i, "Menu_Selector_tags_s.svg"));
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), ++i, "Menu_Selector_pictures_s.svg"));
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), ++i, "Menu_Selector_wordle_s.svg"));
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), ++i, "Menu_Selector_notes_p.svg"));
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), ++i, "Menu_Selector_no_notes_p.svg"));
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), ++i, "Menu_Selector_tags_p.svg"));
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), ++i, "Menu_Selector_pictures_p.svg"));
+		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols), ++i, "Menu_Selector_wordle_p.svg"));
+
+		
+//		for(int i = 0; i<numOfChannels; i++){
+//			ChannelIcon icon = new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols+1), i);
+//			icon.setShape("test1-02.svg");
+//			_icons.add(icon);
+//		}
+
 		_active = true;
 		_maxIcons = PApplet.ceil((float)_icons.size()/_numCols)*_numCols;
-
 		setGridParametets();
 	}
 
@@ -41,7 +57,7 @@ public class ChannelMenu extends Screen{
 			_p.fill(_p.bgColor);
 			_p.rectMode(_p.CORNER);
 			_p.rect(0, 0, _p.displayWidth, _p.displayHeight);
-
+			
 			for(int i=0; i<_maxIcons; i++){
 				int currentRow = PApplet.floor((float)i / _numCols);
 				int currentCol = i % _numCols;

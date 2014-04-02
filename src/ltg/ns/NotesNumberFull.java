@@ -24,7 +24,7 @@ public class NotesNumberFull extends Screen {
 		if(isActive() && !isLoading()){
 			_p.background(255);
 			_noteCount.display(_x, _y);
-			if(checkTime(3000)){
+			if(checkTime(8000)){
 				_noteCount.changeNoteCount((int)_p.random(50));
 			}
 		}

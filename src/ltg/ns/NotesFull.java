@@ -20,7 +20,7 @@ public class NotesFull extends Screen{
 	public NotesFull(AmbientVizMain p) {
 		super(p);
 		_note = new Note(_p);
-		_note.setDimensions(_width, _height);
+		_note.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
 		sendInitRequest();
 	}
 
