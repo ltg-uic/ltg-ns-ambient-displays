@@ -39,7 +39,6 @@ public class AmbientVizMain extends PApplet{
 	public ScoreFull scoreFull;
 	public ScoreGrid scoreGrid;
 
-
 	Updater updater;
 	
 	public int bgColor = color(255, 255, 255);
@@ -52,6 +51,7 @@ public class AmbientVizMain extends PApplet{
 	int currentChannel = -1;
 
 	public void setup(){
+		
 		size(displayWidth, displayHeight);
 		background(bgColor);
 		smooth();
@@ -112,8 +112,6 @@ public class AmbientVizMain extends PApplet{
 		scoreGrid = new ScoreGrid(this, 3, 3);
 		imageGrid = new ImageGrid(this, 3, 3);	
 		wordleGrid = new WordleGrid(this, 3, 3);
-
-
 		
 		menu.setActive(false);
 		screens.add(notesFull);

@@ -24,6 +24,9 @@ public class ScoreFull extends Screen {
 		super.display();
 		if(isActive() && !isLoading()){
 			_scoreBoard.display(_p.width/2, _p.height/2);
+			if(checkTime(3000)){
+				_scoreBoard.scrollUP();
+			}
 		}
 	}
 

@@ -71,7 +71,7 @@ public class NoteCount {
 		_pg1.textFont(_p.boldFont);
 		_pg1.textSize(0.2f*_pg1.height);
 
-		_pg1.text(_count, 0.9f*_pg2.width, 0.1f*_pg2.width+0.3f*_pg1.textSize);
+		_pg1.text(_count, 0.9f*_pg2.width, 0.1f*_pg2.width+0.35f*_pg1.textSize);
 		_pg1.endDraw();
 		
 		_p.tint(255, 255);

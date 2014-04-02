@@ -8,6 +8,8 @@ import ltg.ns.objects.ChannelIcon;
 import ltg.ns.objects.Screen;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PShape;
 import processing.core.PVector;
 
 public class ChannelMenu extends Screen{
@@ -15,12 +17,13 @@ public class ChannelMenu extends Screen{
 	protected float _startX, _startY, _xSpace, _ySpace;
 	protected ArrayList<ChannelIcon> _icons;
 	int _maxIcons; 
+	PShape _titleSVG;
 
 	public ChannelMenu(AmbientVizMain p, int numOfChannels, int numOfColumns) {
 		super(p);
 		_icons = new ArrayList<ChannelIcon>();
 		_numCols = numOfColumns;
-		
+		_titleSVG = _p.loadShape("Menu_Selector_header.svg");
 
 		//initialize icons
 		int i = 0;		
@@ -54,9 +57,12 @@ public class ChannelMenu extends Screen{
 
 	public void display(){
 		if(isActive()){
+			
 			_p.fill(_p.bgColor);
 			_p.rectMode(_p.CORNER);
 			_p.rect(0, 0, _p.displayWidth, _p.displayHeight);
+			_p.shapeMode(_p.CORNER);
+			_p.shape(_titleSVG, 0, 0, _p.displayWidth, 0.15f*_p.displayHeight);
 			
 			for(int i=0; i<_maxIcons; i++){
 				int currentRow = PApplet.floor((float)i / _numCols);
@@ -91,8 +97,8 @@ public class ChannelMenu extends Screen{
 
 	private void setGridParametets(){
 		_xSpace  = _p.width/_numCols;
-		_ySpace  = _p.height/(_maxIcons/_numCols);
+		_ySpace  = _p.height/(_maxIcons/_numCols)-0.1f*_p.height;
 		_startX = _xSpace/2;
-		_startY = _ySpace/2;
+		_startY = _ySpace/2+(0.2f*_p.height);
 	}
 }

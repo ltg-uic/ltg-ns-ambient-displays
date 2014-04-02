@@ -34,6 +34,7 @@ public class ScoreLine {
 	}
 
 	public void updateScoreLine(){
+		Ani.to(this, 2f, "_gTint", 255);
 		_gTint = 0;
 		//updatePosition
 		resetTint();
@@ -43,7 +44,7 @@ public class ScoreLine {
 		Ani.to(this, 2f, "_gTint", 255);
 	}
 	
-	public void display(float x, float y) {
+	public PGraphics display(float x, float y) {
 		_pg1.beginDraw();
 		_pg1.background(_p.color(200));
 		_pg1.rectMode(_p.CENTER);
@@ -51,11 +52,12 @@ public class ScoreLine {
 		_pg1.fill(255);
 		_pg1.rect(_pg1.width/2, _pg1.height/2, _pg1.width-0.01f*_pg1.width, _pg1.height-0.02f*_pg1.height, 4);
 		_pg1.fill(0);
-		_pg1.textSize(0.5f*_height);
 		_pg1.textAlign(_p.LEFT);
 		_pg1.textFont(_p.boldFont);
+		_pg1.textSize(0.06f*_pg1.width);
 
-		_pg1.text(_tag+":", 0.02f*_pg1.width, _pg1.height/2+0.25f*_pg1.height);
+
+		_pg1.text(_tag+":", 0.05f*_pg1.width, _pg1.height/2+0.25f*_pg1.height);
 		_pg1.fill(_p.last5MinColor);
 
 		_pg1.text(_count5Min, 0.4f*_pg1.width, _pg1.height/2+0.25f*_pg1.height);
@@ -65,13 +67,14 @@ public class ScoreLine {
 		_pg1.text(_countAll, 0.8f*_pg1.width, _pg1.height/2+0.25f*_pg1.height);
 		_pg1.endDraw();
 		
-		_p.tint(255, _gTint);
-		_p.imageMode(_p.CENTER);
-		_p.image(_pg1, x, y);
+		
+		return _pg1;
 	}
 
-	public void updateNote(String note) {
-//		_nextNote = note;
-//		changeNote();
+	public void updateScoreLine(String title, String num1, String num2, String num3) {
+		_tag = title;
+		_count5Min = num1;
+		_countToday = num2;
+		_countAll = num3;
 	}
 }

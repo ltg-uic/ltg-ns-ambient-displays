@@ -64,6 +64,9 @@ public class ScoreGrid extends Screen {
 
 
 			}
+			if(checkTime(3000)){
+				_scoreBoards.get((int)(_p.random(0, _scoreBoards.size()))).scrollUP();
+			}
 			
 		}
 	}
