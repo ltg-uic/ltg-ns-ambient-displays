@@ -27,7 +27,6 @@ public class Screen{
 		_height = _p.height;
 		_x = _width/2;
 		_y = _height/2;
-		_pg = _p.createGraphics((int)_width, (int)_height);
 		_graphicsScale = 1.0f;
 		_graphicsTint = 255;
 	}	
@@ -40,7 +39,6 @@ public class Screen{
 		_height = h;
 		_x = x;
 		_y = y;
-		_pg = _p.createGraphics((int)_width, (int)_height);
 		_graphicsScale = 1.0f;
 		_graphicsTint = 255;
 	}	

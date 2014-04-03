@@ -27,8 +27,6 @@ public class ImageSet {
 		_title = "GROUP:";
 		_width = 50;
 		_height = 50;
-		_pg1 = _p.createGraphics(_width, _height);
-		_pgNext = _p.createGraphics(_width, _height);
 		_currentIndex = 0;
 		_size = size;
 		_sampleImage = _p.loadImage("imageTiger.jpg");
@@ -48,8 +46,7 @@ public class ImageSet {
 	public void setDimensions(float width, float height) {
 		_width = (int)width;
 		_height = (int)height;
-		_pg1.setSize(_width, _height);
-		_pgNext.setSize(_width, _height);
+
 	}
 
 	public void changeBurst(){
@@ -117,6 +114,10 @@ public class ImageSet {
 		PImage _current = _imageSet.get(getCurrentIndex());
 		PImage _next = _imageSet.get(getNextIndex());
 
+		
+		_pg1 = _p.createGraphics(_width, _height);
+		_pgNext = _p.createGraphics(_width, _height);
+		
 		_pgNext.beginDraw();
 		_pgNext.background(_p.bgColor);
 		_pgNext.imageMode(_p.CENTER);
@@ -132,6 +133,9 @@ public class ImageSet {
 		_p.imageMode(_p.CENTER);
 		_p.image(_pgNext, x, y);
 		_p.image(_pg1, x, y);
+		
+		_pg1.dispose();
+		_pgNext.dispose();
 	}
 
 

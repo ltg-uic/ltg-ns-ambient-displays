@@ -27,7 +27,6 @@ public class ScoreGrid extends Screen {
 		_numCols = numOfColumns;
 		setGridParameters();
 		initScoreBoards();
-		//sendInitRequest();
 	}	
 
 	public void sendInitRequest(){
@@ -42,7 +41,7 @@ public class ScoreGrid extends Screen {
 		_scoreBoards = new ArrayList<ScoreBoard>();
 		for(int i = 0; i < _numCols*_numRows; i++){
 			ScoreBoard s = new ScoreBoard(_p, 10);
-			s.setDimensions(_widthContent, _heightContent);
+			s.setDimensions(_widthContent-_p.borderGridChannels, _heightContent-_p.borderGridChannels);
 			_scoreBoards.add(s);
 		}
 	}

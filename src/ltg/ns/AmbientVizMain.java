@@ -16,7 +16,7 @@ import de.looksgood.ani.*;
 public class AmbientVizMain extends PApplet{
 
 	public SingleChatLTGEventHandler eh;
-	boolean xmpp = true;
+	boolean xmpp = false;
 	int numOfChannels = 20;
 	
 	private String chatRoom = "nh-test@conference.ltg.evl.uic.edu";
@@ -37,7 +37,7 @@ public class AmbientVizMain extends PApplet{
 	public ScoreGrid scoreGridOur;
 	
 	public float proportionWidth = 0.32f;
-	public float proportionHeight = 0.16f;
+	public float proportionHeight = 0.195f;
 
 	public WordleFull wordleCollectiveAll;
 	public WordleGrid wordleGridAll;
@@ -57,12 +57,12 @@ public class AmbientVizMain extends PApplet{
 
 	public int gridSquares = 9;
 	public PFont normalFont, boldFont;
-	public int borderFullChannels = 70;
+	public int borderFullChannels;
+	public int borderGridChannels;
 
 	boolean channelOffset = false;
 	int currentChannel = -1;
 	ArrayList<Screen> screens = new ArrayList<Screen>(); 
-
 
 	public void setup(){
 
@@ -73,6 +73,9 @@ public class AmbientVizMain extends PApplet{
 		normalFont = loadFont("HelveticaNeue-100.vlw");
 		boldFont = loadFont("HelveticaNeue-Bold-100.vlw");
 		updater = new Updater(this);
+		
+		borderFullChannels = (int) (0.1f*width);
+		borderGridChannels = (int) (0.1f*width/2);
 
 		if(xmpp){
 			eh = new SingleChatLTGEventHandler(botUsername, botPassword, chatRoom);
