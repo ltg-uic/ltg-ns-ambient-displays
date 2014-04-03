@@ -6,6 +6,7 @@ import wordcram.WordCram;
 import de.looksgood.ani.Ani;
 import ltg.ns.AmbientVizMain;
 
+
 public class Wordle {
 
 	WordCram _wordle, _nextWordle;

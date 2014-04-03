@@ -15,7 +15,7 @@ public class ImageSet {
 
 	PImage _sampleImage;
 	int _width, _height, _size, _currentIndex;
-	String _title;
+	String _class, _group, _date, _school;
 	AmbientVizMain _p;
 	int _gTint;
 	PGraphics _pg1, _pgNext;
@@ -24,12 +24,15 @@ public class ImageSet {
 	public ImageSet(AmbientVizMain p, int size) {
 		_p = p;
 		_gTint = 255;
-		_title = "GROUP:";
+		_class = "ben";
+		_group = "ics";
+		_school = "BZAEDS";
+		_date = "Day1/3:00PM";
 		_width = 50;
 		_height = 50;
 		_currentIndex = 0;
 		_size = size;
-		_sampleImage = _p.loadImage("imageTiger.jpg");
+
 		_loadingBurst = false;
 		_imageSet = new ArrayList<PImage>();
 		_newImageSet = new ArrayList<PImage>();
@@ -37,12 +40,13 @@ public class ImageSet {
 	}
 
 	private void initImageSet(){
-		for(int i=0; i<_size; i++){
-			_imageSet.add(_sampleImage);
-		}
-		
-		
+		ArrayList<String> initialURLs = new ArrayList<String>();
+		initialURLs.add("1.jpg");
+		initialURLs.add("2.jpg");
+		initialURLs.add("3.jpg");
+		setImages(initialURLs);
 	}
+
 	public void setDimensions(float width, float height) {
 		_width = (int)width;
 		_height = (int)height;
@@ -111,31 +115,61 @@ public class ImageSet {
 
 	public void display(float x, float y) {		
 
-		PImage _current = _imageSet.get(getCurrentIndex());
-		PImage _next = _imageSet.get(getNextIndex());
+		if(_imageSet.size()>0){
+			PImage _current = _imageSet.get(getCurrentIndex());
+			PImage _next = _imageSet.get(getNextIndex());
 
-		
-		_pg1 = _p.createGraphics(_width, _height);
-		_pgNext = _p.createGraphics(_width, _height);
-		
-		_pgNext.beginDraw();
-		_pgNext.background(_p.bgColor);
-		_pgNext.imageMode(_p.CENTER);
-		_pgNext.image(_next, _pg1.width/2, _pg1.height/2, _width, _height);
-		_pgNext.endDraw();
+			_pg1 = _p.createGraphics(_width, _height);
+			_pgNext = _p.createGraphics(_width, _height);
+			float textSize = 0.02f*_pg1.width;
 
-		_pg1.beginDraw();
-		_pg1.imageMode(_p.CENTER);
-		_pg1.image(_current, _pg1.width/2, _pg1.height/2, _width, _height);
-		_pg1.endDraw();
+			_pgNext.beginDraw();
+			_pgNext.background(_p.bgColor);
+			_pgNext.imageMode(_p.CENTER);
+			_pgNext.image(_next, _pgNext.width/2, _pgNext.height/2, _width, _height);
+			_pgNext.endDraw();
 
-		_p.tint(255, _gTint);
-		_p.imageMode(_p.CENTER);
-		_p.image(_pgNext, x, y);
-		_p.image(_pg1, x, y);
-		
-		_pg1.dispose();
-		_pgNext.dispose();
+			_pg1.beginDraw();
+			_pg1.imageMode(_p.CENTER);
+			_pg1.image(_current, _pg1.width/2, _pg1.height/2, _width, _height);
+			_pg1.endDraw();
+
+			_p.tint(255, _gTint);
+			_p.imageMode(_p.CENTER);
+			_p.image(_pgNext, x, y);
+			_p.image(_pg1, x, y);
+
+
+			//labels
+			_p.rectMode(_p.CENTER);
+			_p.fill(255);
+			//		_p.stroke(0);
+			//		_p.strokeWeight(0.002f*_p.height);
+			_p.noStroke();
+			float rectY = y+_pg1.height/2-0.04f*_pg1.height;
+			float rectH = 0.08f*_pg1.height;
+
+			_p.rect(x, rectY, _pg1.width, rectH);
+			_p.fill(0);
+			_p.textFont(_p.boldFont);
+			_p.textSize(textSize);
+			//_p.textSize(32);
+			_p.text("School:", x-0.97f*_pg1.width/2, rectY+0.2f*rectH);
+			_p.text("Class:", x-0.5f*_pg1.width/2, rectY+0.2f*rectH);
+			_p.text("Group:", x-0.05f*_pg1.width/2, rectY+0.2f*rectH);
+			_p.text("Time:", x+0.4f*_pg1.width/2, rectY+0.2f*rectH);
+
+			_p.fill(_p.last5MinColor);
+			_p.textFont(_p.normalFont);
+			_p.textSize(textSize);
+			_p.text(_school, x-0.80f*_pg1.width/2, rectY+0.2f*rectH);
+			_p.text(_class, x-0.35f*_pg1.width/2, rectY+0.2f*rectH);
+			_p.text(_group, x+0.1f*_pg1.width/2, rectY+0.2f*rectH);
+			_p.text(_date, x+0.55f*_pg1.width/2, rectY+0.2f*rectH);
+
+			_pg1.dispose();
+			_pgNext.dispose();
+		}
 	}
 
 

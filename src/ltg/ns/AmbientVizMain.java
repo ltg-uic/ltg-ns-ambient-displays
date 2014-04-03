@@ -2,7 +2,6 @@ package ltg.ns;
 
 import java.util.ArrayList;
 
-
 import ltg.commons.ltg_event_handler.LTGEvent;
 import ltg.commons.ltg_event_handler.SingleChatLTGEventHandler;
 import ltg.commons.ltg_event_handler.SingleChatLTGEventListener;
@@ -10,7 +9,10 @@ import ltg.ns.objects.Screen;
 import ltg.ns.update.Updater;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PImage;
 import de.looksgood.ani.*;
+
+import javax.swing.*;
 
 
 public class AmbientVizMain extends PApplet{
@@ -18,11 +20,12 @@ public class AmbientVizMain extends PApplet{
 	public SingleChatLTGEventHandler eh;
 	boolean xmpp = false;
 	int numOfChannels = 20;
-	
+	protected String className;
+
 	private String chatRoom = "nh-test@conference.ltg.evl.uic.edu";
 	private String botUsername = "hg-beacon-test@ltg.evl.uic.edu";
 	private String botPassword = "hgbeacon";
-	
+
 	public MainScreen mainScreen;
 	public ChannelMenu menuOur, menuAll;
 	public WordleFull wordleCollectiveOur;
@@ -35,7 +38,7 @@ public class AmbientVizMain extends PApplet{
 	public NotesGrid notesGridOur;
 	public ScoreFull scoreFullOur;
 	public ScoreGrid scoreGridOur;
-	
+
 	public float proportionWidth = 0.32f;
 	public float proportionHeight = 0.195f;
 
@@ -73,9 +76,21 @@ public class AmbientVizMain extends PApplet{
 		normalFont = loadFont("HelveticaNeue-100.vlw");
 		boldFont = loadFont("HelveticaNeue-Bold-100.vlw");
 		updater = new Updater(this);
+
+		try { 
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} 
+		catch (Exception e) { 
+			e.printStackTrace();
+		} 
 		
-		borderFullChannels = (int) (0.1f*width);
-		borderGridChannels = (int) (0.1f*width/2);
+//		while(className == null){
+//			ImageIcon icon = new ImageIcon("../data/iconPane.png");
+//			className = (String) JOptionPane.showInputDialog(null, "Please enter your class name", "", JOptionPane.INFORMATION_MESSAGE, icon, null, null );
+//		}
+
+		borderFullChannels = (int) (0.05f*width);
+		borderGridChannels = (int) (0.05f*width/2);
 
 		if(xmpp){
 			eh = new SingleChatLTGEventHandler(botUsername, botPassword, chatRoom);
