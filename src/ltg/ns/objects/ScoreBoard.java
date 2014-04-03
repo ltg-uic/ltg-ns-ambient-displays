@@ -74,6 +74,7 @@ public class ScoreBoard {
 			PGraphics _pg2 =  _scoreLines.get(i).display(xLine, yLine);
 			_pg1.image(_pg2, xLine, yLine);
 			yLine += _lineHeight;
+			_pg2.dispose();
 		}
 		//_pg1.shape(_border, 0, 0, _pg1.width, _pg1.height);
 		_pg1.rectMode(_p.CENTER);

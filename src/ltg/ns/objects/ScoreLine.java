@@ -24,13 +24,11 @@ public class ScoreLine {
 		_height = 100;
 		_x = _width/2;
 		_height = _height/2;
-		_pg1 = _p.createGraphics(_width, _height);
 	}
 
 	public void setDimensions(float width, float height) {
 		_width = (int)width;
 		_height = (int)height;
-		_pg1.setSize(_width, _height);
 	}
 
 	public void updateScoreLine(){
@@ -45,6 +43,9 @@ public class ScoreLine {
 	}
 	
 	public PGraphics display(float x, float y) {
+		
+		_pg1 = _p.createGraphics(_width, _height);
+
 		_pg1.beginDraw();
 		_pg1.background(_p.color(200));
 		_pg1.rectMode(_p.CENTER);

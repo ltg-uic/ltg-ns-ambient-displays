@@ -26,16 +26,12 @@ public class Note {
 				+ " consectetur adipisicing elit, sed do eiusmod "
 				+ "tempor incididunt ut labore et dolore magna aliqua. ";
 		_width = 200;
-		_height = 100;
-		_pg1 = _p.createGraphics(_width, _height);
-		
-		
+		_height = 100;		
 	}
 
 	public void setDimensions(float width, float height) {
 		_width = (int)width;
 		_height = (int)height;
-		_pg1.setSize(_width, _height);
 	}
 
 	public void changeNote(){
@@ -48,6 +44,8 @@ public class Note {
 	}
 	
 	public void display(float x, float y) {
+		_pg1 = _p.createGraphics(_width, _height);
+
 		_pg1.beginDraw();
 		_pg1.background(_p.bgColor);
 		_pg1.shape(_background,0, 0, _pg1.width, _pg1.height);
@@ -69,6 +67,7 @@ public class Note {
 		_p.tint(255, _gTint);
 		_p.imageMode(_p.CENTER);
 		_p.image(_pg1, x, y);
+		_pg1.dispose();
 	}
 
 	public void updateNote(String note) {

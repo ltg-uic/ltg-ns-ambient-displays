@@ -59,6 +59,9 @@ public class Wordle {
 	}
 
 	public void display(float x, float y) {		
+		
+		_pg1 = _p.createGraphics(_width, _height);
+
 		_pg1.beginDraw();
 //		if(_loadingWordle){
 //			_pg1.background(_p.bgColor);
@@ -72,6 +75,8 @@ public class Wordle {
 		_p.tint(255, _gTint);
 		_p.imageMode(_p.CENTER);
 		_p.image(_pg1, x, y);
+		
+		_pg1.dispose();
 	}
 
 	public void update(String s){

@@ -27,18 +27,11 @@ public class NoteCount {
 		
 		_background = _p.loadShape("ge_yellow_note.svg");
 		_background = _p.loadShape("ge_blue_note.svg");
-
-		_pg1 = _p.createGraphics(_width, _height);
-		_pg2 = _p.createGraphics(_width, _height);
-
 	}
 
 	public void setDimensions(float width, float height) {
 		_width = (int)width;
 		_height = (int)height;
-		_pg1.setSize(_width, _height);
-		_pg2.setSize(_width, _height);
-
 	}
 
 	public void changeNoteCount(int count){
@@ -53,7 +46,10 @@ public class NoteCount {
 	}
 	
 	public void display(float x, float y) {
-
+		
+		_pg1 = _p.createGraphics(_width, _height);
+		_pg2 = _p.createGraphics(_width, _height);
+		
 		_pg2.beginDraw();
 		_pg2.shapeMode(_p.CENTER);
 		_pg2.shape(_background, _pg2.width/2, _pg2.height/2, 0.8f*_pg2.width, 0.8f*_pg2.height);
@@ -80,6 +76,11 @@ public class NoteCount {
 		
 		_p.tint(255, _gTint);
 		_p.image(_pg1, x, y);
+		
+		_pg1.dispose();
+		_pg2.dispose();
+		
+		
 	}
 
 }
