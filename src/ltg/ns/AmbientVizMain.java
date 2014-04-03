@@ -1,6 +1,11 @@
 package ltg.ns;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import ltg.commons.ltg_event_handler.LTGEvent;
 import ltg.commons.ltg_event_handler.SingleChatLTGEventHandler;
@@ -12,6 +17,7 @@ import processing.core.PFont;
 import processing.core.PImage;
 import de.looksgood.ani.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -83,12 +89,23 @@ public class AmbientVizMain extends PApplet{
 		catch (Exception e) { 
 			e.printStackTrace();
 		} 
-		
-//		while(className == null){
-//			ImageIcon icon = new ImageIcon("../data/iconPane.png");
-//			className = (String) JOptionPane.showInputDialog(null, "Please enter your class name", "", JOptionPane.INFORMATION_MESSAGE, icon, null, null );
-//		}
 
+		try {
+			println();
+			Image img = ImageIO.read(this.getClass().getResource("../../data/iconPane.png"));
+			Image resizedImage = img.getScaledInstance(150, 150, 1);
+			ImageIcon icon = new ImageIcon(resizedImage);
+			className = (String) JOptionPane.showInputDialog(null, "Please enter your class name", "", JOptionPane.INFORMATION_MESSAGE, icon, null, null );
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		if(className == null){
+			className = "";
+		}
+		
 		borderFullChannels = (int) (0.05f*width);
 		borderGridChannels = (int) (0.05f*width/2);
 
