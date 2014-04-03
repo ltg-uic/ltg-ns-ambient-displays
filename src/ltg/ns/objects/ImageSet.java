@@ -42,6 +42,8 @@ public class ImageSet {
 		for(int i=0; i<_size; i++){
 			_imageSet.add(_sampleImage);
 		}
+		
+		
 	}
 	public void setDimensions(float width, float height) {
 		_width = (int)width;

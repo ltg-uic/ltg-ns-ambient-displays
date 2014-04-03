@@ -23,14 +23,14 @@ public class Updater {
 	}
 
 	public void initNoteFull(LTGEvent e){ 
-		_p.notesFull.update(e.getPayload().get("note_body").asText());
+		_p.notesFullOur.update(e.getPayload().get("note_body").asText());
 	}
 	
 	public void initNoteGrid(LTGEvent e){
 		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
 		if(a.size() == _p.gridSquares){
 			for(int i=0; i < a.size(); i++ ){
-				_p.notesGrid.update(a.get(i).get("note_body").asText(), i);
+				_p.notesGridOur.update(a.get(i).get("note_body").asText(), i);
 			}
 		}
 	}
@@ -41,7 +41,7 @@ public class Updater {
 		for(int i=0; i < a.size(); i++ ){
 			s.add(a.get(i).asText());
 		}
-		_p.imageFull.update(s);
+		_p.imageFullOur.update(s);
 	}
 	
 	public void initImageGrid(LTGEvent e){ 
@@ -53,13 +53,13 @@ public class Updater {
 			for(int j=0; j < b.size(); j++ ){
 				s.add(b.get(j).asText());
 			}
-			_p.imageGrid.update(s, i);
+			_p.imageGridOur.update(s, i);
 		}
 	}
 	
 	public void initWordleFull(LTGEvent e){ 	
 		String a = e.getPayload().get("wordle_text").asText();
-		_p.wordleCollective.update(a);
+		_p.wordleCollectiveOur.update(a);
 	}
 	
 	public void initWordleGrid(LTGEvent e){ 
@@ -67,7 +67,7 @@ public class Updater {
 		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
 		for(int i=0; i < a.size(); i++){
 			String s = a.get(i).get("wordle_text").asText();
-			_p.wordleGrid.update(s, i);
+			_p.wordleGridOur.update(s, i);
 		}
 	}
 //	

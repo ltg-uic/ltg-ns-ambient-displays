@@ -15,7 +15,7 @@ public class NotesNumberFull extends Screen {
 	public NotesNumberFull(AmbientVizMain p) {
 		super(p);
 		_noteCount = new NoteCount(_p);
-		_noteCount.setDimensions(_width, _height);
+		_noteCount.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
 	}
 
 	@Override

@@ -49,7 +49,6 @@ public class Note {
 	
 	public void display(float x, float y) {
 		_pg1.beginDraw();
-		
 		_pg1.background(_p.bgColor);
 		_pg1.shape(_background,0, 0, _pg1.width, _pg1.height);
 		

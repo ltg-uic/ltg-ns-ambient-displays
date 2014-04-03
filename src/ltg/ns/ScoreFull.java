@@ -15,7 +15,7 @@ public class ScoreFull extends Screen {
 	public ScoreFull(AmbientVizMain p){
 		super(p);
 		_scoreBoard = new ScoreBoard(_p, 10);
-		_scoreBoard.setDimensions(_p.width, _p.height);
+		_scoreBoard.setDimensions(_width-100, _height-100);
 		_active = false;
 		_loading = false;
 	}

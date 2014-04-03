@@ -21,7 +21,7 @@ public class NotesFull extends Screen{
 		super(p);
 		_note = new Note(_p);
 		_note.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
-		sendInitRequest();
+		//sendInitRequest();
 	}
 
 	public void sendInitRequest(){

@@ -24,7 +24,7 @@ public class ImageFull extends Screen {
 		super(p);
 		_imageSet = new ImageSet(_p, 4);
 		_imageSet.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
-		sendInitRequest();
+		//sendInitRequest();
 	}
 	
 	public void sendInitRequest(){

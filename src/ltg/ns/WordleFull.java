@@ -21,8 +21,8 @@ public class WordleFull extends Screen{
 		_wordle = new Wordle(p);
 		_active = false;
 		_loading = false;
-		_wordle.setDimensions(_p.width, _p.height);
-		sendInitRequest();
+		_wordle.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
+		//sendInitRequest();
 	}
 	
 	public void sendInitRequest(){

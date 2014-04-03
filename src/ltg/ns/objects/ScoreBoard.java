@@ -41,6 +41,7 @@ public class ScoreBoard {
 	public void setDimensions(float width, float height) {
 		_width = (int)width;
 		_height = (int)height;
+		_lineHeight = (int)_height/6;
 		_pg1.setSize(_width, _height);
 
 		for(ScoreLine s:_scoreLines){

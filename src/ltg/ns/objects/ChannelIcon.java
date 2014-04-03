@@ -55,8 +55,6 @@ public class ChannelIcon
 		_p.rectMode(_p.CENTER);
 		_p.imageMode(_p.CENTER);
 		_p.shapeMode(_p.CENTER);
-
-
 		_p.noStroke();
 		_p.fill(0);
 		if((_x-_width/2 < _p.mouseX) && (_p.mouseX < _x+_width/2) && ((_y-_height/2) < _p.mouseY) && (_p.mouseY < _y+_height/2)){
