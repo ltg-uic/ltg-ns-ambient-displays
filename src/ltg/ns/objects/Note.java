@@ -7,7 +7,7 @@ import de.looksgood.ani.*;
 
 public class Note {
 	int _width, _height;
-	String _note, _nextNote, _title;
+	String _note, _nextNote, _nextSchool, _nextClass, _title;
 	AmbientVizMain _p;
 	int _gTint;
 	PGraphics _pg1;
@@ -19,9 +19,7 @@ public class Note {
 		_p = p;
 		_gTint = 255;
 		_title = "Latest note";
-//		_background = _p.loadShape("ge_note.svg");
 		_background = _p.loadShape("ge_note.svg");
-
 		_note = "Lorem ipsum dolor sit amet,"
 				+ " consectetur adipisicing elit, sed do eiusmod "
 				+ "tempor incididunt ut labore et dolore magna aliqua. ";
@@ -70,8 +68,10 @@ public class Note {
 		_pg1.dispose();
 	}
 
-	public void updateNote(String note) {
-		_nextNote = note;
+	public void updateNote(String eSchool, String eClass, String eNoteBody) {
+		_nextNote = eNoteBody;
+		_nextClass = eClass;
+		_nextSchool = eSchool;
 		changeNote();
 	}
 }

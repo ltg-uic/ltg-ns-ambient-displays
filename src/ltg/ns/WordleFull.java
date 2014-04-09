@@ -22,12 +22,27 @@ public class WordleFull extends Screen{
 		_active = false;
 		_loading = false;
 		_wordle.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
-		//sendInitRequest();
+	}
+	
+	public WordleFull(AmbientVizMain p, String className){
+		super(p);
+		_className = className;
+		_wordle = new Wordle(p);
+		_active = false;
+		_loading = false;
+		_wordle.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
 	}
 	
 	public void sendInitRequest(){
 		if(_p.xmpp){
+			sendUpdateRequest();
+		}
+	}
+	
+	public void sendUpdateRequest(){
+		if(_p.xmpp){
 			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			node.put("school", _className);
 			LTGEvent eventInit = new LTGEvent("wordle_full_init", null, null, node);
 			_p.eh.generateEvent(eventInit);
 		}
@@ -41,6 +56,9 @@ public class WordleFull extends Screen{
 		super.display();
 		if(isActive() && !isLoading()){
 			_wordle.display(_p.width/2, _p.height/2);
+			if(checkTime(_p.updateInterval)){
+				sendUpdateRequest();
+			}
 		}
 	}
 

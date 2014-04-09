@@ -21,19 +21,17 @@ public class NotesFull extends Screen{
 		super(p);
 		_note = new Note(_p);
 		_note.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
-		//sendInitRequest();
+	}
+	
+	public NotesFull(AmbientVizMain p, String className) {
+		super(p);
+		_className = className;
+		_note = new Note(_p);
+		_note.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
 	}
 
 	public void sendInitRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			LTGEvent eventInit = new LTGEvent("notes_full_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
-
-	public void update(String note){
-		_note.updateNote(note);
+		this.sendUpdateRequest();
 	}
 
 	@Override
@@ -42,9 +40,21 @@ public class NotesFull extends Screen{
 		if(isActive() && !isLoading()){
 			_p.background(255);
 			_note.display(_x, _y);
-			//			if(checkTime(3000)){
-			//				_note.changeNote();
-			//			}
+			if(checkTime(_p.updateInterval)){
+				sendUpdateRequest();
+			}
 		}
+	}
+	
+	public void sendUpdateRequest(){
+		if(_p.xmpp){
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			LTGEvent eventInit = new LTGEvent("notes_full_init", null, null, node);
+			_p.eh.generateEvent(eventInit);
+		}
+	}
+	
+	public void update(String eSchool, String eClass, String eNoteBody){
+		_note.updateNote(eSchool, eClass, eNoteBody);
 	}
 }

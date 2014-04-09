@@ -27,7 +27,15 @@ public class WordleGrid extends Screen {
 		_numCols = numOfColumns;
 		setGridParameters();
 		initWordles();
-		//sendInitRequest();
+	}	
+	
+	public WordleGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns) {
+		super(p);
+		_className = className;
+		_numRows = numOfRows;
+		_numCols = numOfColumns;
+		setGridParameters();
+		initWordles();
 	}	
 	
 	public void sendInitRequest(){
@@ -37,7 +45,17 @@ public class WordleGrid extends Screen {
 			_p.eh.generateEvent(eventInit);
 		}
 	}
+	
+	public void sendUpdateRequest(){
+		if(_p.xmpp){
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			LTGEvent eventInit = new LTGEvent("wordle_grid_init", null, null, node);
+			_p.eh.generateEvent(eventInit);
+		}
+	}
 
+	
+	
 	public void initWordles(){
 		_wordles = new ArrayList<Wordle>();
 		for(int i = 0; i < _numCols*_numRows; i++){
@@ -57,6 +75,9 @@ public class WordleGrid extends Screen {
 					int currentCol = i % _numCols;
 					PVector loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY);
 					_wordles.get(i).display(loc.x, loc.y);;
+				}
+				if(checkTime(_p.updateInterval)){
+					sendUpdateRequest();
 				}
 		}
 	}

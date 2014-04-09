@@ -2,6 +2,10 @@ package ltg.ns;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import ltg.commons.ltg_event_handler.LTGEvent;
 import ltg.ns.objects.Note;
 import ltg.ns.objects.NoteCount;
 import ltg.ns.objects.Screen;
@@ -27,6 +31,32 @@ public class NotesNumberGrid extends Screen{
 		setGridParameters();
 		initNotesCounters();
 	}	
+	
+	public NotesNumberGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns) {
+		super(p);
+		_className = className;
+		_lastChanged = 0;
+		_numRows = numOfRows;
+		_numCols = numOfColumns;
+		setGridParameters();
+		initNotesCounters();
+	}	
+	
+	public void sendInitRequest(){
+		if(_p.xmpp){
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			LTGEvent eventInit = new LTGEvent("wordle_grid_init", null, null, node);
+			_p.eh.generateEvent(eventInit);
+		}
+	}
+	
+	public void sendUpdateRequest(){
+		if(_p.xmpp){
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			LTGEvent eventInit = new LTGEvent("wordle_grid_init", null, null, node);
+			_p.eh.generateEvent(eventInit);
+		}
+	}
 
 	public void initNotesCounters(){
 		_notesCount = new ArrayList<NoteCount>();
@@ -50,8 +80,12 @@ public class NotesNumberGrid extends Screen{
 					_notesCount.get(i).display(loc.x, loc.y);;
 				}
 				
+				if(checkTime(_p.updateInterval)){
+					sendUpdateRequest();
+				}
+				
 				if(checkTime(3000)){
-					_notesCount.get((int)_p.random(0, _notesCount.size())).changeNoteCount((int)_p.random(50));
+					_notesCount.get((int)_p.random(0, _notesCount.size())).changeNoteCount((int)_p.random(150));
 				}
 		}
 		

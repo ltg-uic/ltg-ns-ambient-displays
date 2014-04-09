@@ -10,7 +10,8 @@ import de.looksgood.ani.Ani;
 
 public class ScoreBoard {
 	ArrayList<ScoreLine> _scoreLines;
-	int _width, _height, _size, _lineHeight;
+	int _width, _height, _size, _lineHeight, _lastChanged;
+	String _class, _group, _school;
 	AmbientVizMain _p;
 	int _gTint;
 	PGraphics _pg1;
@@ -20,6 +21,9 @@ public class ScoreBoard {
 	public ScoreBoard(AmbientVizMain p, int size) {
 		_p = p;
 		_scroll = 0;
+		_class = "ben";
+		_group = "ics";
+		_school = "BZAEDS";
 		_gTint = 255;
 		_width = (int)(_p.width);
 		_height = 600;
@@ -49,7 +53,7 @@ public class ScoreBoard {
 	}
 
 	public void scrollUP(){
-		Ani.to(this, 2f, "_scroll",-_lineHeight, Ani.LINEAR, "onEnd:resetScroll");
+		Ani.to(this, 1.5f, "_scroll",-_lineHeight, Ani.LINEAR, "onEnd:resetScroll");
 	}
 
 	public void resetScroll(){
@@ -63,9 +67,12 @@ public class ScoreBoard {
 	public void display(float x, float y) {		
 	
 		_pg1 = _p.createGraphics(_width, _height);
-
+		float textSize = 0.025f*_pg1.width;
 		float xLine = _width/2;
-		float yLine = _lineHeight/2-_lineHeight/4+_scroll;
+//		float yLine = _lineHeight/2-_lineHeight/4 + _scroll;
+		float yLine = _lineHeight + _scroll;
+
+		
 		
 		_pg1.beginDraw();
 		_pg1.background(255);
@@ -82,19 +89,23 @@ public class ScoreBoard {
 		_pg1.fill(255);
 		_pg1.rect(_pg1.width/2, _pg1.height*0.05f, _pg1.width, _pg1.height*0.1f);
 		_pg1.stroke(0);
+		_pg1.strokeWeight(2);
 		_pg1.line(0, _pg1.height*0.1f, _pg1.width, _pg1.height*0.1f);
 		
 		_pg1.fill(_p.last5MinColor);
 		_pg1.textAlign(_p.CENTER);
 		_pg1.textFont(_p.boldFont);
-		_pg1.textSize(0.03f*_pg1.width);
+		
+		
+		float textSizeTitles = 0.03f*_pg1.width;
+		_pg1.textSize(textSizeTitles);
 		_pg1.text("Last 5 Minutes", 0.43f*_pg1.width, _pg1.height*0.05f);
 		_pg1.fill(0);
 		
-		_pg1.textSize(0.03f*_pg1.width);
+		_pg1.textSize(textSizeTitles);
 		_pg1.text("Today", 0.64f*_pg1.width, _pg1.height*0.05f);
 		
-		_pg1.textSize(0.03f*_pg1.width);
+		_pg1.textSize(textSizeTitles);
 		_pg1.text("Total", 0.84f*_pg1.width, _pg1.height*0.05f);
 
 		_pg1.endDraw();
@@ -106,8 +117,44 @@ public class ScoreBoard {
 		
 		
 		
+		//labels
+		_p.rectMode(_p.CENTER);
+		_p.fill(255);
+		//		_p.stroke(0);
+		//		_p.strokeWeight(0.002f*_p.height);
+		_p.noStroke();
+		float rectY = y+_pg1.height/2-0.04f*_pg1.height;
+		float rectH = 0.1f*_pg1.height;
+
+		_p.rect(x, rectY, _pg1.width, rectH);
+		_p.fill(0);
+		_p.textFont(_p.boldFont);
+		_p.textSize(textSize);
+		//_p.textSize(32);
+		_p.text("School:", x-0.87f*_pg1.width/2, rectY+0.2f*rectH);
+		_p.text("Class:", x-0.25f*_pg1.width/2, rectY+0.2f*rectH);
+		_p.text("Group:", x+0.35f*_pg1.width/2, rectY+0.2f*rectH);
+
+		_p.fill(_p.last5MinColor);
+		_p.textFont(_p.normalFont);
+		_p.textSize(textSize);
+		_p.text(_school, x-0.65f*_pg1.width/2, rectY+0.2f*rectH);
+		_p.text(_class, x-0.05f*_pg1.width/2, rectY+0.2f*rectH);
+		_p.text(_group, x+0.6f*_pg1.width/2, rectY+0.2f*rectH);
+		
+		if(checkTime(2500)){
+			scrollUP();
+		}
+		
 		//_p.rect(0, 0, _, d);
-		
-		
+	}
+
+	protected boolean checkTime(int time){
+		int now = _p.millis();	
+		if(now - _lastChanged > time){
+			_lastChanged = now;
+			return true;
+		}
+		return false;
 	}
 }

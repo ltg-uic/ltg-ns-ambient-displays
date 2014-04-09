@@ -14,7 +14,7 @@ public class ImageSet {
 	ArrayList<PImage> _newImageSet;
 
 	PImage _sampleImage;
-	int _width, _height, _size, _currentIndex;
+	int _width, _height, _size, _currentIndex, _lastChanged;
 	String _class, _group, _date, _school;
 	AmbientVizMain _p;
 	int _gTint;
@@ -32,6 +32,7 @@ public class ImageSet {
 		_height = 50;
 		_currentIndex = 0;
 		_size = size;
+		_lastChanged = 0;
 
 		_loadingBurst = false;
 		_imageSet = new ArrayList<PImage>();
@@ -94,6 +95,7 @@ public class ImageSet {
 			PImage img = _p.requestImage(urls.get(i));
 			_newImageSet.add(img);
 		}
+		changeBurst();
 	}
 
 	public boolean isNewSetLoaded(){
@@ -169,9 +171,23 @@ public class ImageSet {
 
 			_pg1.dispose();
 			_pgNext.dispose();
+			
+			if(checkTime(1000)){
+				changeBurstImage();
+			}
+			
+		
 		}
 	}
 
+	protected boolean checkTime(int time){
+		int now = _p.millis();	
+		if(now - _lastChanged > time){
+			_lastChanged = now;
+			return true;
+		}
+		return false;
+	}
 
 
 	private int getNextIndex(){

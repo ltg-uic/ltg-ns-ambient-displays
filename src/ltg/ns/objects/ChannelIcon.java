@@ -61,7 +61,7 @@ public class ChannelIcon
 			_p.stroke(255, 100, 0);
 			_p.strokeWeight(4);
 			_p.noFill();
-			_p.rect(_x, _y, _width, _height, 20);
+			_p.rect(_x, _y, _width, _height, 10);
 		}
 		if(_img == null && _shape == null){
 			_p.rect(_x, _y, _width, _height, 5);

@@ -24,14 +24,31 @@ public class ImageFull extends Screen {
 		super(p);
 		_imageSet = new ImageSet(_p, 4);
 		_imageSet.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
-		//sendInitRequest();
 	}
 	
-	public void sendInitRequest(){
+	public ImageFull(AmbientVizMain p, String className) {
+		super(p);
+		_className = className;
+		_imageSet = new ImageSet(_p, 4);
+		_imageSet.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
+	}
+
+	public void sendUpdateRequest(){
 		if(_p.xmpp){
 			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			node.put("school", _className);
 			LTGEvent eventInit = new LTGEvent("images_full_init", null, null, node);
 			_p.eh.generateEvent(eventInit);
+		}
+	}
+
+	public void setActive(boolean active){
+		if(active && _initActivation){
+			sendUpdateRequest();
+			super.setActive(active);
+		}
+		else{
+			super.setActive(active);
 		}
 	}
 
@@ -39,12 +56,12 @@ public class ImageFull extends Screen {
 	public void display(){
 		super.display();
 		if(isActive() && !isLoading()){
-			//drawImage();
 			_p.background(255);
 			_imageSet.display(_x, _y);
-			if(checkTime(1000)){
-				_imageSet.changeBurstImage();
+			if(checkTime(_p.updateInterval)){
+				sendUpdateRequest();
 			}
+			
 		}
 	}
 

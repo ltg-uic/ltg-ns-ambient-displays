@@ -57,7 +57,7 @@ public class NoteCount {
 		_pg2.stroke(255);
 		_pg2.strokeWeight(5);
 		_pg2.ellipseMode(_p.CENTER);
-		_pg2.ellipse(0.9f*_pg2.width, 0.1f*_pg2.width, 0.2f*_pg2.width, 0.2f*_pg2.width);
+		_pg2.ellipse(0.85f*_pg2.width, 0.15f*_pg2.width, 0.25f*_pg2.width, 0.25f*_pg2.width);
 		_pg2.endDraw();
 		
 		_pg1 = _p.createGraphics(_width, _height);
@@ -67,7 +67,7 @@ public class NoteCount {
 		_pg1.textFont(_p.boldFont);
 		_pg1.textSize(0.2f*_pg1.height);
 
-		_pg1.text(_count, 0.9f*_pg2.width, 0.1f*_pg2.width+0.35f*_pg1.textSize);
+		_pg1.text(_count, 0.85f*_pg2.width, 0.15f*_pg2.width+0.4f*_pg1.textSize);
 		_pg1.endDraw();
 		
 		_p.tint(255, 255);

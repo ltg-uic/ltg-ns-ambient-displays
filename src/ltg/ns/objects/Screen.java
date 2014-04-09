@@ -11,9 +11,11 @@ public class Screen{
 	protected float _width, _height, _x, _y;
 	protected int _graphicsTint, _lastChanged;
 	float _graphicsScale;
-	protected boolean _active;
-	protected boolean _loading;
+	protected boolean _active, _loading, _shifting;
 	public AmbientVizMain _p;
+	public String _className="all";
+	protected boolean _initActivation;
+
 	PGraphics _pg;
 
 	public Screen() {
@@ -21,8 +23,8 @@ public class Screen{
 
 	public Screen(AmbientVizMain p) {
 		_p = p;
-		_active = false;
-		_loading = false;
+		_active = _loading = _shifting = false;
+		_initActivation = true;
 		_width = _p.width;
 		_height = _p.height;
 		_x = _width/2;
@@ -33,8 +35,7 @@ public class Screen{
 
 	public Screen(AmbientVizMain p, float w, float h, float x, float y) {
 		_p = p;
-		_active = false;
-		_loading = false;
+		_active = _loading = _shifting = false;
 		_width = w;
 		_height = h;
 		_x = x;

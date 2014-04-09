@@ -17,10 +17,10 @@ public class MainScreen extends Screen {
 		_titleSVG = _p.loadShape("Menu_Selector_header.svg");
 		
 		_menuOur = new ChannelMenu(_p, 10, 5, (int)(0.075f*_p.width), (int)(_p.height*0.04f));
-		_menuOur.setDimensions((int)(_p.width*0.95f), (int)(_p.height/2.2));
+		_menuOur.setDimensions((int)(_p.width*0.9f), (int)(_p.height/2.2));
 		
-		_menuAll = new ChannelMenu(_p, 10, 5, (int)(0.075f*_p.width), (int)( _p.height/2.2));
-		_menuAll.setDimensions((int)(_p.width*0.95f), (int)(_p.height/2.2));
+		_menuAll = new ChannelMenu(_p, 10, 5, (int)(0.075f*_p.width), (int)( _p.height/2.1));
+		_menuAll.setDimensions((int)(_p.width*0.9f), (int)(_p.height/2.2));
 	}
 	
 	@Override
@@ -44,6 +44,9 @@ public class MainScreen extends Screen {
 			_p.shapeMode(_p.CORNER);
 			_p.shape(_titleSVG, 0, 0, _p.displayWidth, 0.15f*_p.displayHeight);
 			_menuOur.display();
+			_p.stroke(200);
+			_p.strokeWeight(2);
+			_p.line(0, _p.height/2+0.07f*_p.height, _p.width, _p.height/2+0.07f*_p.height);
 			_menuAll.display();	
 		}
 	}	

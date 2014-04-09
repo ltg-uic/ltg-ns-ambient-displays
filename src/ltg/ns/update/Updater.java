@@ -21,17 +21,45 @@ public class Updater {
 	public Updater(AmbientVizMain p){
 		_p = p;
 	}
-
-	public void initNoteFull(LTGEvent e){ 
-		_p.notesFullOur.update(e.getPayload().get("note_body").asText());
+	
+	public void updateNoteFull(LTGEvent e){ 
+		String _eClass = e.getPayload().get("class").asText();
+		String _eSchool = e.getPayload().get("school").asText();
+		String _eNoteBody = e.getPayload().get("note_body").asText();
+		
+		switch (_eClass){
+			case "all":{
+				_p.notesFullAll.update(_eSchool, _eClass, _eNoteBody);
+			}
+			default:{
+				_p.notesFullOur.update(_eSchool, _eClass, _eNoteBody);
+			}
+			
+		}
 	}
 	
 	public void initNoteGrid(LTGEvent e){
+		String _eClass = e.getPayload().get("class").asText();
+		String _eSchool = e.getPayload().get("school").asText();
+		
 		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
 		if(a.size() == _p.gridSquares){
 			for(int i=0; i < a.size(); i++ ){
 				_p.notesGridOur.update(a.get(i).get("note_body").asText(), i);
 			}
+		}
+	}
+	
+	public void initNumberNotesFull(LTGEvent e){ 	
+		String a = e.getPayload().get("wordle_text").asText();
+		_p.wordleCollectiveOur.update(a);
+	}
+	
+	public void initNumberNotesGrid(LTGEvent e){ 
+		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
+		for(int i=0; i < a.size(); i++){
+			String s = a.get(i).get("wordle_text").asText();
+			_p.wordleGridOur.update(s, i);
 		}
 	}
 	
@@ -54,6 +82,19 @@ public class Updater {
 				s.add(b.get(j).asText());
 			}
 			_p.imageGridOur.update(s, i);
+		}
+	}
+	
+	public void initTagsFull(LTGEvent e){ 	
+		String a = e.getPayload().get("wordle_text").asText();
+		_p.wordleCollectiveOur.update(a);
+	}
+	
+	public void initTagsGrid(LTGEvent e){ 
+		ArrayNode a = (ArrayNode) e.getPayload().get("grid");
+		for(int i=0; i < a.size(); i++){
+			String s = a.get(i).get("wordle_text").asText();
+			_p.wordleGridOur.update(s, i);
 		}
 	}
 	

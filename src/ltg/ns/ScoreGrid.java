@@ -28,11 +28,28 @@ public class ScoreGrid extends Screen {
 		setGridParameters();
 		initScoreBoards();
 	}	
+	
+	public ScoreGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns) {
+		super(p);
+		_className = className;
+		_numRows = numOfRows;
+		_numCols = numOfColumns;
+		setGridParameters();
+		initScoreBoards();
+	}	
 
 	public void sendInitRequest(){
 		if(_p.xmpp){
 			ObjectNode node = JsonNodeFactory.instance.objectNode();
 			LTGEvent eventInit = new LTGEvent("images_grid_init", null, null, node);
+			_p.eh.generateEvent(eventInit);
+		}
+	}
+	
+	public void sendUpdateRequest(){
+		if(_p.xmpp){
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			LTGEvent eventInit = new LTGEvent("wordle_grid_init", null, null, node);
 			_p.eh.generateEvent(eventInit);
 		}
 	}
@@ -63,10 +80,9 @@ public class ScoreGrid extends Screen {
 
 
 			}
-			if(checkTime(3000)){
-				_scoreBoards.get((int)(_p.random(0, _scoreBoards.size()))).scrollUP();
-			}
-			
+			if(checkTime(_p.updateInterval)){
+				sendUpdateRequest();
+			}			
 		}
 	}
 
