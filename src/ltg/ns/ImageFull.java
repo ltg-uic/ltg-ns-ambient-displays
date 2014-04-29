@@ -33,18 +33,8 @@ public class ImageFull extends Screen {
 		_imageSet.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
 	}
 
-	public void sendUpdateRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			node.put("school", _className);
-			LTGEvent eventInit = new LTGEvent("images_full_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
-
 	public void setActive(boolean active){
 		if(active && _initActivation){
-			sendUpdateRequest();
 			super.setActive(active);
 		}
 		else{
@@ -58,14 +48,10 @@ public class ImageFull extends Screen {
 		if(isActive() && !isLoading()){
 			_p.background(255);
 			_imageSet.display(_x, _y);
-			if(checkTime(_p.updateInterval)){
-				sendUpdateRequest();
-			}
-			
 		}
 	}
 
-	public void update(ArrayList<String> urls) {
-		_imageSet.setImages(urls);
+	public void update(String eschool, String eclass, String egroup, String etime, ArrayList<String> urls) {
+		_imageSet.update(eschool, eclass, egroup, etime, urls);
 	}
 }

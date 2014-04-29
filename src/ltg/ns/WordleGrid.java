@@ -17,45 +17,26 @@ public class WordleGrid extends Screen {
 	protected float _startX, _startY, _xSpace, _ySpace, _widthContent, _heightContent;
 	protected ArrayList<Wordle> _wordles;
 
-	public WordleGrid() {
-		super();
-	}
-
-	public WordleGrid(AmbientVizMain p, int numOfRows, int numOfColumns) {
+	public WordleGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns, String bannerURL) {
 		super(p);
-		_numRows = numOfRows;
-		_numCols = numOfColumns;
-		setGridParameters();
-		initWordles();
-	}	
-	
-	public WordleGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns) {
-		super(p);
+		setShapeBanner(bannerURL);
 		_className = className;
+		_name = "wordle_grid_class_"+className;
 		_numRows = numOfRows;
 		_numCols = numOfColumns;
 		setGridParameters();
 		initWordles();
 	}	
 	
-	public void sendInitRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			LTGEvent eventInit = new LTGEvent("wordle_grid_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
+	public void setActive(boolean active){	
+		super.setActive(active);
+		if(active){
+			for(int i=0; i<_wordles.size(); i++){
+				_wordles.get(i).reload();
+			}
 		}
-	}
-	
-	public void sendUpdateRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			LTGEvent eventInit = new LTGEvent("wordle_grid_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
+	}	
 
-	
-	
 	public void initWordles(){
 		_wordles = new ArrayList<Wordle>();
 		for(int i = 0; i < _numCols*_numRows; i++){
@@ -70,23 +51,22 @@ public class WordleGrid extends Screen {
 		super.display();
 		
 		if(isActive() && !isLoading()){				
-				for(int i=0; i<_wordles.size(); i++){
-					int currentRow = _p.floor(i / _numCols);
-					int currentCol = i % _numCols;
-					PVector loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY);
-					_wordles.get(i).display(loc.x, loc.y);;
-				}
-				if(checkTime(_p.updateInterval)){
-					sendUpdateRequest();
-				}
+			for(int i=0; i<_wordles.size(); i++){
+				int currentRow = _p.floor(i / _numCols);
+				int currentCol = i % _numCols;
+				PVector loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY);
+				_wordles.get(i).display(loc.x, loc.y);;
+			}
+			if(_banner != null){
+				_p.shape(_banner, _width/2, 0.93f*_height, _banner.width*_p.width/_banner.width, _banner.height*_p.height/7.4f/_banner.height);
+			}
 		}
 	}
 	
-	public void update(String s, int i) {
-		_wordles.get(i).update(s);
+	public void update(String eSchool, String eClass, String eGroup, String eWordle, int i) {
+		_wordles.get(i).update(eSchool, eClass, eGroup, eWordle);
 	}
-
-
+	
 	public void setGridParameters(){
 		_xSpace  = _p.width/_numCols;
 		_ySpace  = _p.height/_numRows;

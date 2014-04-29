@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import ltg.commons.ltg_event_handler.LTGEvent;
+import ltg.ns.objects.Note;
 import ltg.ns.objects.Screen;
 import ltg.ns.objects.Wordle;
 import ltg.ns.update.Updater;
@@ -16,50 +17,39 @@ public class WordleFull extends Screen{
 	protected Wordle _wordle;
 
 
-	public WordleFull(AmbientVizMain p){
-		super(p);
-		_wordle = new Wordle(p);
-		_active = false;
-		_loading = false;
-		_wordle.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
-	}
-	
-	public WordleFull(AmbientVizMain p, String className){
+	public WordleFull(AmbientVizMain p, String className, String bannerURL) {
 		super(p);
 		_className = className;
+		_name = "wordle_full_class_"+className;
+		setShapeBanner(bannerURL);
 		_wordle = new Wordle(p);
-		_active = false;
-		_loading = false;
-		_wordle.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
-	}
-	
-	public void sendInitRequest(){
-		if(_p.xmpp){
-			sendUpdateRequest();
-		}
-	}
-	
-	public void sendUpdateRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			node.put("school", _className);
-			LTGEvent eventInit = new LTGEvent("wordle_full_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
-	
-	public void update(String s){
-		_wordle.update(s);
+		_wordle.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels-0.05f*_p.height);
 	}
 
-	public void display(){
+	public void setActive(boolean active){	
+		super.setActive(active);
+		if(active){
+			_wordle.reload();
+			System.out.println("setting active wordle");
+		}
+	}
+
+	public void display(){	
 		super.display();
 		if(isActive() && !isLoading()){
 			_wordle.display(_p.width/2, _p.height/2);
-			if(checkTime(_p.updateInterval)){
-				sendUpdateRequest();
+			if(_banner != null){
+				_p.shape(_banner, _width/2, 0.93f*_height, _banner.width*_p.width/_banner.width, _banner.height*_p.height/7.4f/_banner.height);
 			}
 		}
+	}
+
+	public void update(String eSchool, String eClass, String eGroup, String eWordle){
+		_wordle.update(eSchool, eClass, eGroup, eWordle);
+	}
+
+	public void update(String eSchool, String eClass, String eWordle) {
+		_wordle.update(eSchool, eClass, null, eWordle);
 	}
 
 }

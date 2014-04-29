@@ -74,7 +74,7 @@ public class ImageSet {
 	public void changeBurstImage(){
 		if(!_loadingBurst){
 			if(!isNewSetLoaded()){
-				Ani.to(this, 0.5f, "_gTint", 200, Ani.LINEAR, "onEnd:resetTintBurst");
+				Ani.to(this, 0.25f, "_gTint", 200, Ani.LINEAR, "onEnd:resetTintBurst");
 			}
 			else{
 				changeBurst();
@@ -82,11 +82,10 @@ public class ImageSet {
 		}
 	}
 
-
 	public void resetTintBurst(){
 		if(_currentIndex+1 >= _size)_currentIndex = 0;
 		else _currentIndex++;
-		Ani.to(this, 0.5f, "_gTint", 255);
+		Ani.to(this, 0.25f, "_gTint", 255);
 	}
 
 	public void setImages(ArrayList<String> urls) {
@@ -113,6 +112,10 @@ public class ImageSet {
 		if(_newImageSet.size() ==0) is = false;
 		return is;
 
+	}
+	
+	public void update(String eschool, String eclass, String egroup, String etime, ArrayList<String> urls) {
+		this.setImages(urls);
 	}
 
 	public void display(float x, float y) {		
@@ -172,7 +175,7 @@ public class ImageSet {
 			_pg1.dispose();
 			_pgNext.dispose();
 			
-			if(checkTime(1000)){
+			if(checkTime(500)){
 				changeBurstImage();
 			}
 			

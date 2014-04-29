@@ -3,8 +3,10 @@ package ltg.ns.objects;
 
 
 import ltg.ns.AmbientVizMain;
+import ltg.ns.update.Updater;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PShape;
 import de.looksgood.ani.Ani;
 
 public class Screen{
@@ -13,10 +15,10 @@ public class Screen{
 	float _graphicsScale;
 	protected boolean _active, _loading, _shifting;
 	public AmbientVizMain _p;
-	public String _className="all";
+	public String _className="all", _name="";
 	protected boolean _initActivation;
-
 	PGraphics _pg;
+	protected PShape _banner;
 
 	public Screen() {
 	}
@@ -43,6 +45,15 @@ public class Screen{
 		_graphicsScale = 1.0f;
 		_graphicsTint = 255;
 	}	
+
+
+	public void setShapeBanner(String bannerURL){
+		if(bannerURL != null){
+			while(_banner == null){
+				_banner = _p.loadShape(bannerURL);
+			}
+		}
+	}
 
 
 	public void setLocation(float x, float y){
@@ -74,7 +85,7 @@ public class Screen{
 		_graphicsScale = 0;
 		Ani.to(this, 1f, "_graphicsScale", 1.0f, Ani.EXPO_OUT);
 	}
-	
+
 	public void display(){
 		if(isLoading()){
 			_p.fill(_p.bgColor);
@@ -84,7 +95,7 @@ public class Screen{
 			_p.rect(0, 0, _width, _height);
 		}
 	}
-	
+
 	public boolean isActive() {
 		return _active;
 	}
@@ -92,7 +103,7 @@ public class Screen{
 	public boolean isLoading() {
 		return _loading;
 	}
-	
+
 	public void startGraphics(){
 		_pg.beginDraw();
 		_pg.noStroke();
@@ -111,9 +122,9 @@ public class Screen{
 
 	public void mouseClicked(float x, float y) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	protected boolean checkTime(int time){
 		int now = _p.millis();	
 		if(now - _lastChanged > time){

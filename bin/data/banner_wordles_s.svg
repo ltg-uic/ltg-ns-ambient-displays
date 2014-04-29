@@ -20,8 +20,8 @@
 	</sfw>
 </metadata>
 <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="17.5566" y1="-2.1401" x2="17.5566" y2="1477.7057">
-	<stop  offset="0.25" style="stop-color:#1E80F7"/>
-	<stop  offset="1" style="stop-color:#2D00A9"/>
+	<stop  offset="0.3166" style="stop-color:#F5741F"/>
+	<stop  offset="1" style="stop-color:#BF3500"/>
 </linearGradient>
 <rect fill="url(#SVGID_1_)" width="35.113" height="1440"/>
 </svg>

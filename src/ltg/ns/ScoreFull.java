@@ -33,25 +33,10 @@ public class ScoreFull extends Screen {
 		_loading = false;
 	}
 
-	
-	public void sendUpdateRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			LTGEvent eventInit = new LTGEvent("wordle_grid_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
-
 	public void display(){
 		super.display();
 		if(isActive() && !isLoading()){
 			_scoreBoard.display(_p.width/2, _p.height/2);
-//			if(checkTime(_p.updateInterval)){
-//				sendUpdateRequest();
-//			}
-			
-			
 		}
 	}
-
 }

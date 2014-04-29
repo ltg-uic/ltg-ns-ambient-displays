@@ -18,44 +18,61 @@ public class ChannelMenu{
 	protected ArrayList<ChannelIcon> _icons;
 	int _maxIcons; 
 	AmbientVizMain _p;
-	
-	public ChannelMenu(AmbientVizMain p, int numOfChannels, int numOfColumns, int x, int y) {
+	PShape _selector;
+
+	public ChannelMenu(AmbientVizMain p, int numOfColumns, int x, int y, ArrayList<String> iconspaths, int startChannel, String selectorURL) {
 		_p = p;
 		_x = x;
 		_y = y;
 		_icons = new ArrayList<ChannelIcon>();
 		_numCols = numOfColumns;
-		
+		int numRows = (int)iconspaths.size()/_numCols;
 		//initialize icons
-		int i = 0;		
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, i, "Menu_Selector_notes_s.svg"));
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_no_notes_s.svg"));		
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_tags_s.svg"));
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_pictures_s.svg"));
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_wordle_s.svg"));
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_notes_p.svg"));
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_no_notes_p.svg"));
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_tags_p.svg"));
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_pictures_p.svg"));
-		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_wordle_p.svg"));
-	
-//		for(int i = 0; i<numOfChannels; i++){
-//			ChannelIcon icon = new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols+1), i);
-//			icon.setShape("test1-02.svg");
-//			_icons.add(icon);
-//		}
-		
+		for(int i = 0; i<iconspaths.size(); i++){
+			_icons.add(new ChannelIcon(_p, 0, 0, _p.height/(_numCols*2.2f), _p.height/(_numCols*1.9f), i+startChannel, iconspaths.get(i)));
+		}
 		_maxIcons = PApplet.ceil((float)_icons.size()/_numCols)*_numCols;
 		setGridParametets();
+		_selector = _p.loadShape(selectorURL);
 	}
-	
+
+	//	public ChannelMenu(AmbientVizMain p, int numOfChannels, int numOfColumns, int x, int y) {
+	//		_p = p;
+	//		_x = x;
+	//		_y = y;
+	//		_icons = new ArrayList<ChannelIcon>();
+	//		_numCols = numOfColumns;
+	//		
+	//		//initialize icons
+	//		int i = 0;		
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.height/(_numCols*2.2f), _p.height/(_numCols*1.9f), i, "Menu_Selector_notes_s.svg"));
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_no_notes_s.svg"));		
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_tags_s.svg"));
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_pictures_s.svg"));
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_wordle_s.svg"));
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_notes_p.svg"));
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_no_notes_p.svg"));
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_tags_p.svg"));
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_pictures_p.svg"));
+	//		_icons.add(new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1)/2, _p.width/(_numCols)/2, ++i, "Menu_Selector_wordle_p.svg"));
+	//	
+	////		for(int i = 0; i<numOfChannels; i++){
+	////			ChannelIcon icon = new ChannelIcon(_p, 0, 0, _p.width/(_numCols+1), _p.width/(_numCols+1), i);
+	////			icon.setShape("test1-02.svg");
+	////			_icons.add(icon);
+	////		}
+	//		
+	//		_maxIcons = PApplet.ceil((float)_icons.size()/_numCols)*_numCols;
+	//		setGridParametets();
+	//	}
+
 	public void setDimensions(float width, float height) {
 		_width = (int)width;
 		_height = (int)height;
 		setGridParametets();
 	}
 
-	
+
 	public void mouseClicked(float x, float y){
 		int channel = -1;
 		for(int i=0; i < _icons.size(); i++){
@@ -66,27 +83,27 @@ public class ChannelMenu{
 			}
 		}
 		if(channel != -1){
-			_p.println("channel_selected"+channel);
-			_p.channelSelected(channel);
-			
+			_p.channelSelected(channel);			
 		}
 	}
 
 
 	public void display(){	
-			for(int i=0; i<_maxIcons; i++){
-				int currentRow = PApplet.floor((float)i / _numCols);
-				int currentCol = i % _numCols;				
-				if(i<_icons.size()){
-					_icons.get(i).loc(new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY));
-					_icons.get(i).display();
-				}
+		_p.shapeMode(_p.CORNER);
+		_p.shape(_selector, _x, _y+0.3f*_height, 0.04f*_width, 0.9f*_height);
+		for(int i=0; i<_maxIcons; i++){
+			int currentRow = PApplet.floor((float)i / _numCols);
+			int currentCol = i % _numCols;				
+			if(i<_icons.size()){
+				_icons.get(i).loc(new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY));
+				_icons.get(i).display();
 			}
+		}
 	}
 
 	public void setGridParametets(){
 		_xSpace  = _width/_numCols;
-		_ySpace  = _height/(_maxIcons/_numCols)-0.1f*_height;
+		_ySpace  = _height/(_maxIcons/_numCols)-0.05f*_height;
 		_startX = _x + _xSpace/2;
 		_startY = _y + _ySpace/2+(0.3f*_height);
 	}

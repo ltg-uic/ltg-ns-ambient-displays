@@ -32,6 +32,7 @@ public class ImageGrid extends Screen {
 		_difY = 0;
 		setGridParameters();
 		initImageSets();
+		
 	}	
 
 	public ImageGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns) {
@@ -43,32 +44,21 @@ public class ImageGrid extends Screen {
 		setGridParameters();
 		initImageSets();
 	}	
-
-	public void sendInitRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			node.put("school", _className);
-			LTGEvent eventInit = new LTGEvent("images_grid_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
-
-
-	public void sendUpdateRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			node.put("school", _className);
-			LTGEvent eventInit = new LTGEvent("images_grid_update", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
-
 	public void initImageSets(){
 		_imageSets = new ArrayList<ImageSet>();
 		for(int i = 0; i < _numCols*_numRows; i++){
 			ImageSet s = new ImageSet(_p, 4);
 			s.setDimensions(_widthContent, _heightContent);
 			_imageSets.add(s);
+		}
+	}
+	
+	public void sendUpdateRequest(){
+		if(_p.xmpp){
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			node.put("school", _className);
+			LTGEvent eventInit = new LTGEvent("images_grid_update", null, null, node);
+			_p.eh.generateEvent(eventInit);
 		}
 	}
 
@@ -112,13 +102,6 @@ public class ImageGrid extends Screen {
 //				}
 
 				_imageSets.get(i).display(loc.x, loc.y);
-
-			}
-			//			if(checkTime(_p.updateInterval)){
-			//				sendUpdateRequest();
-			//			}
-			if(checkTime(5000)){
-
 			}
 		}
 	}

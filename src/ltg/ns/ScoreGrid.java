@@ -37,23 +37,7 @@ public class ScoreGrid extends Screen {
 		setGridParameters();
 		initScoreBoards();
 	}	
-
-	public void sendInitRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			LTGEvent eventInit = new LTGEvent("images_grid_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
 	
-	public void sendUpdateRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			LTGEvent eventInit = new LTGEvent("wordle_grid_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
-
 	public void initScoreBoards(){
 		_scoreBoards = new ArrayList<ScoreBoard>();
 		for(int i = 0; i < _numCols*_numRows; i++){
@@ -77,12 +61,7 @@ public class ScoreGrid extends Screen {
 				int currentCol = i % _numCols;
 				PVector loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY);
 				_scoreBoards.get(i).display(loc.x, loc.y);
-
-
 			}
-			if(checkTime(_p.updateInterval)){
-				sendUpdateRequest();
-			}			
 		}
 	}
 

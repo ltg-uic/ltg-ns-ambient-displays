@@ -32,7 +32,6 @@ public class ChannelIcon
 		setShape(shapeURL);
 	}
 	
-	
 	public void setShape(String shapeURL){
 		_shape = _p.loadShape(shapeURL);
 	}
@@ -79,7 +78,6 @@ public class ChannelIcon
 		else if(_shape != null && _img == null){
 			_p.shape(_shape, _x, _y, _width, _height);
 		}
-		_p.noStroke();
 	}
 	
 	public int mouseClicked(float x, float y){

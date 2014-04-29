@@ -21,18 +21,21 @@ import de.looksgood.ani.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 
 public class AmbientVizMain extends PApplet{
 
 	protected SingleChatLTGEventHandler eh;
-	protected boolean xmpp = false;
+	protected boolean xmpp = true;
 	protected int numOfChannels = 20;
-	protected String className;
-	protected int updateInterval = 30000;
+	public String className;
+	public String displayID;
 
 	private String chatRoom = "nh-test@conference.ltg.evl.uic.edu";
-	private String botUsername = "hg-beacon-test@ltg.evl.uic.edu";
-	private String botPassword = "hgbeacon";
+	private String botUsername = "ns-display-d@ltg.evl.uic.edu";
+	private String botPassword = "ns-display-d";
 
 	public MainScreen mainScreen;
 	public ChannelMenu menuOur, menuAll;
@@ -46,7 +49,7 @@ public class AmbientVizMain extends PApplet{
 	public NotesGrid notesGridOur;
 	public ScoreFull scoreFullOur;
 	public ScoreGrid scoreGridOur;
-	private WordleFull wordleCollectiveAll;
+	public WordleFull wordleCollectiveAll;
 	public WordleGrid wordleGridAll;
 	public ImageFull imageFullAll;
 	public ImageGrid imageGridAll;
@@ -57,32 +60,38 @@ public class AmbientVizMain extends PApplet{
 	public ScoreFull scoreFullAll;
 	public ScoreGrid scoreGridAll;
 
-
-
 	private SelectionScreen classDisplaySelector;
+	
+	private Updater updater;
 
 
 	public float proportionWidth = 0.32f;
 	public float proportionHeight = 0.195f;
 
-	Updater updater;
 
 	public int bgColor = color(255, 255, 255);
 	public int last5MinColor = color(0, 125, 224);
 
 	public ArrayList<Screen> screens = new ArrayList<Screen>(); 
 	public PFont normalFont, boldFont;
+
 	public int gridSquares = 9;
 	protected int borderFullChannels;
 	protected int borderGridChannels;
 
 	protected boolean channelOffset = false;
-	protected boolean classDisplaySelected = false;
+	public boolean classDisplaySelected = false;
 
 	protected int currentChannel = -1;
 
+	
+	
 	public void setup(){
+		botPassword = args[0];
+		botUsername = args[0]+"@ltg.evl.uic.edu";
+		System.out.println(args[0]);
 
+		updater = new Updater(this);		
 		size(displayWidth, displayHeight);
 		background(bgColor);
 		frameRate(60);
@@ -90,91 +99,17 @@ public class AmbientVizMain extends PApplet{
 		Ani.init(this);
 		normalFont = loadFont("HelveticaNeue-100.vlw");
 		boldFont = loadFont("HelveticaNeue-Bold-100.vlw");
-		updater = new Updater(this);
-		classDisplaySelector = new SelectionScreen(this);
-
-
-
-//				try { 
-//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//				} 
-//				catch (Exception e) { 
-//					e.printStackTrace();
-//				} 
-//		
-//				try {
-//					println();
-//					Image img = ImageIO.read(this.getClass().getResource("../../data/iconPane.png"));
-//					Image resizedImage = img.getScaledInstance(150, 150, 1);
-//					ImageIcon icon = new ImageIcon(resizedImage);
-//					className = (String) JOptionPane.showInputDialog(null, "Please enter your class name", "", JOptionPane.INFORMATION_MESSAGE, icon, null, null );
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-
-
-		if(className == null){
-			className = "";
-		}
 
 		borderFullChannels = (int) (0.05f*width);
 		borderGridChannels = (int) (0.05f*width/2);
 
 		registerEventHandlers();
 
-
 		mainScreen = new MainScreen(this);
 
+		
+		classDisplaySelector = new SelectionScreen(this);
 
-		notesFullOur = new NotesFull(this, className);
-		numNotesFullOur = new NotesNumberFull(this, className);
-		scoreFullOur = new ScoreFull(this, className);
-		imageFullOur = new ImageFull(this, className);	
-		wordleCollectiveOur = new WordleFull(this, className);
-		notesGridOur = new NotesGrid(this, className, 3, 3);
-		numNotesGridOur = new NotesNumberGrid(this, className, 3, 3);
-		scoreGridOur = new ScoreGrid(this, className, 3, 3);
-		imageGridOur = new ImageGrid(this, className, 3, 3);	
-		wordleGridOur = new WordleGrid(this, className, 3, 3);
-
-
-		notesFullAll = new NotesFull(this);
-		numNotesFullAll = new NotesNumberFull(this);
-		scoreFullAll = new ScoreFull(this);
-		imageFullAll = new ImageFull(this, className);	
-		wordleCollectiveAll = new WordleFull(this);
-		notesGridAll = new NotesGrid(this, 3, 3);
-		numNotesGridAll = new NotesNumberGrid(this, 3, 3);
-		scoreGridAll = new ScoreGrid(this, 3, 3);
-		imageGridAll = new ImageGrid(this, 3, 3);	
-		wordleGridAll = new WordleGrid(this, 3, 3);
-
-		//THIS CLASSES
-		screens.add(notesFullOur);
-		screens.add(numNotesFullOur);
-		screens.add(scoreFullOur);
-		screens.add(imageFullOur);
-		screens.add(wordleCollectiveOur);
-		screens.add(notesGridOur);
-		screens.add(numNotesGridOur);
-		screens.add(scoreGridOur);
-		screens.add(imageGridOur);
-		screens.add(wordleGridOur);
-
-		//ALL CLASSES
-		screens.add(notesFullAll);
-		screens.add(numNotesFullAll);
-		screens.add(scoreFullAll);
-		screens.add(imageFullAll);
-		screens.add(wordleCollectiveAll);
-		screens.add(notesGridAll);
-		screens.add(numNotesGridAll);
-		screens.add(scoreGridAll);
-		screens.add(imageGridAll);
-		screens.add(wordleGridAll);
-
-		goToMenu();
 	}
 
 	public void draw(){
@@ -190,22 +125,24 @@ public class AmbientVizMain extends PApplet{
 	}
 
 	public void mouseClicked(){
-		if(mainScreen.isActive()){
-			if(mouseY > height/2) channelOffset = true;
-			mainScreen.mouseClicked(mouseX, mouseY);
-		}
-		else{
-			goToMenu();
-		}
+		if(classDisplaySelected){
+			if(mainScreen.isActive()){
+				mainScreen.mouseClicked(mouseX, mouseY);
+			}
+			else{
+				goToMenu();	
+			}
+		}	
 	}
 
 	public void channelSelected(int channel){
 		if(channelOffset){
-			currentChannel = channel+10;
+			currentChannel = channel+6;
 			channelOffset = false;
 		}
-		else currentChannel = channel;
+		else currentChannel = channel;	
 		goToScreen(currentChannel);
+		println(currentChannel);
 	}
 
 	public void goToMenu(){
@@ -213,9 +150,32 @@ public class AmbientVizMain extends PApplet{
 			screens.get(i).setActive(false);
 		}
 		mainScreen.setActive(true);
+		ObjectNode node = JsonNodeFactory.instance.objectNode();
+		LTGEvent eventInit = new LTGEvent("menu_active", null, null, node);
+		node.put("class", className);
+		node.put("screen", "menu");
+		node.put("display", displayID);
+		this.eh.generateEvent(eventInit);
+	}
+
+	public void sendGeneralInitMessage(){
+		if(this.xmpp){
+			ObjectNode nodeAll = JsonNodeFactory.instance.objectNode();
+			LTGEvent eventInitAll = new LTGEvent("displays_init", null, null, nodeAll);
+			nodeAll.put("class", "all");
+			nodeAll.put("display_id", displayID);
+			this.eh.generateEvent(eventInitAll);
+			
+			ObjectNode node = JsonNodeFactory.instance.objectNode();
+			LTGEvent eventInit = new LTGEvent("displays_init", null, null, node);
+			node.put("class", className);
+			node.put("display_id", displayID);
+			this.eh.generateEvent(eventInit);
+		}
 	}
 
 	public void goToScreen(int channel){
+		noStroke();
 		mainScreen.setActive(false);
 		for(int i=0; i < screens.size(); i++){
 			screens.get(i).setActive(false);
@@ -223,97 +183,188 @@ public class AmbientVizMain extends PApplet{
 		if(channel < screens.size()){
 			screens.get(channel).setActive(true);
 		}
+		ObjectNode node = JsonNodeFactory.instance.objectNode();
+		LTGEvent eventInit = new LTGEvent("screen_active", null, null, node);
+		node.put("class", className);
+		node.put("screen", screens.get(channel)._name);
+		node.put("display", displayID);
+		this.eh.generateEvent(eventInit);
 	}
 
 	public static void main(String args[]) {
-		PApplet.main(new String[] { "--present", "ltg.ns.AmbientVizMain" });
+		System.out.println("Starting ambient displays");
+		PApplet.main(new String[] { "--present", "ltg.ns.AmbientVizMain", args[0]});
 	}
 
 	protected void registerEventHandlers(){
 		if(xmpp){
 			eh = new SingleChatLTGEventHandler(botUsername, botPassword, chatRoom);
 
-			//init
 			eh.registerHandler("notes_full_init_r", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					updater.updateNoteFull(e);
+					updater.notesFullInit(e);
 				}
 			});	
+
 			eh.registerHandler("notes_grid_init_r", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					updater.initNoteGrid(e);
+					updater.notesGridInit(e);
 				}
 			});	
+
 			eh.registerHandler("#_notes_full_init_r", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					updater.initNumberNotesFull(e);
+					updater.numberNotesFullInit(e);
 				}
 			});	
 			eh.registerHandler("#_notes_grid_init_r", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					updater.initNumberNotesGrid(e);
+					updater.numberNotesGridInit(e);
 				}
 			});	
-			eh.registerHandler("images_full_init_r", new SingleChatLTGEventListener() {
-				public void processEvent(LTGEvent e) {
-					updater.initImageFull(e);
-				}
-			});
-			eh.registerHandler("images_grid_init_r", new SingleChatLTGEventListener() {
-				public void processEvent(LTGEvent e) {
-					updater.initImageGrid(e);
-				}
-			});	
-			eh.registerHandler("tags_full_init_r", new SingleChatLTGEventListener() {
-				public void processEvent(LTGEvent e) {
-					updater.initImageFull(e);
-				}
-			});
-			eh.registerHandler("tags_grid_init_r", new SingleChatLTGEventListener() {
-				public void processEvent(LTGEvent e) {
-					updater.initTagsGrid(e);
-				}
-			});	
+
 			eh.registerHandler("wordle_full_init_r", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					updater.initWordleGrid(e);
+					updater.wordleFullInit(e);
 				}
 			});
 			eh.registerHandler("wordle_grid_init_r", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					updater.initWordleGrid(e);
+					updater.wordleGridInit(e);
 				}
-			});
+			});	
 
-			//update
-			eh.registerHandler("notes_grid_update_r", new SingleChatLTGEventListener() {
+			eh.registerHandler("notes_full_update", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					updater.initNoteGrid(e);
-				}
-			});	
-			eh.registerHandler("#_notes_grid_update_r", new SingleChatLTGEventListener() {
-				public void processEvent(LTGEvent e) {
-					updater.initNumberNotesGrid(e);
-				}
-			});	
-			eh.registerHandler("images_grid_update_r", new SingleChatLTGEventListener() {
-				public void processEvent(LTGEvent e) {
-					updater.initImageGrid(e);
+					updater.notesFullUpdate(e);
 				}
 			});
-			eh.registerHandler("tags_grid_update_r", new SingleChatLTGEventListener() {
+			eh.registerHandler("notes_grid_update", new SingleChatLTGEventListener() {
 				public void processEvent(LTGEvent e) {
-					updater.initTagsGrid(e);
-				}
-			});			
-			eh.registerHandler("wordle_grid_update_r", new SingleChatLTGEventListener() {
-				public void processEvent(LTGEvent e) {
-					updater.initWordleGrid(e);
+					updater.notesGridUpdate(e);
 				}
 			});	
+
+			eh.registerHandler("#_notes_full_update", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					updater.numberNotesFullUpdate(e);
+				}
+			});
+			eh.registerHandler("#_notes_grid_update", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					updater.numberNotesGridUpdate(e);
+				}
+			});		
+
+			eh.registerHandler("wordle_full_update", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					updater.wordleFullUpdate(e);
+				}
+			});	
+
+			eh.registerHandler("wordle_grid_update", new SingleChatLTGEventListener() {
+				public void processEvent(LTGEvent e) {
+					updater.wordleGridUpdate(e);
+				}
+			});	
+
+			////////////////////////////////////////////////////////////////////////////
+			//update
+			//			eh.registerHandler("image_full_update", new SingleChatLTGEventListener() {
+			//				public void processEvent(LTGEvent e) {
+			//					updater.imageFullUpdate(e);
+			//				}
+			//			});	
+			//			eh.registerHandler("tags_full_update", new SingleChatLTGEventListener() {
+			//				public void processEvent(LTGEvent e) {
+			//					updater.tagsFullUpdate(e);
+			//				}
+			//			});
+			//			eh.registerHandler("tags_grid_update", new SingleChatLTGEventListener() {
+			//				public void processEvent(LTGEvent e) {
+			//					updater.tagsGridUpdate(e);
+			//				}
+			//			});	
+			//			eh.registerHandler("images_grid_update", new SingleChatLTGEventListener() {
+			//				public void processEvent(LTGEvent e) {
+			//					updater.imageGridUpdate(e);
+			//				}
+			//			});	
+			//			eh.registerHandler("tags_full_init_r", new SingleChatLTGEventListener() {
+			//			public void processEvent(LTGEvent e) {
+			//				updater.tagsFullInit(e);
+			//			}
+			//		});
+			//		eh.registerHandler("tags_grid_init_r", new SingleChatLTGEventListener() {
+			//			public void processEvent(LTGEvent e) {
+			//				updater.tagsGridInit(e);
+			//			}
+			//		});	
+
+			//init
+			//		eh.registerHandler("images_full_init_r", new SingleChatLTGEventListener() {
+			//			public void processEvent(LTGEvent e) {
+			//				updater.imageFullInit(e);
+			//			}
+			//		});	
+			//		eh.registerHandler("images_grid_init_r", new SingleChatLTGEventListener() {
+			//			public void processEvent(LTGEvent e) {
+			//				updater.imageGridInit(e);
+			//			}
+			//		});	
+
 
 			eh.runAsynchronously();
 		}
 	}
+	
+	public void createObjects(){
+		notesFullOur = new NotesFull(this, className, "banner_notes_s.svg");
+		numNotesFullOur = new NotesNumberFull(this, className, "banner_no_notes_s.svg");
+		wordleCollectiveOur = new WordleFull(this, className, "banner_wordle_s.svg");
+		notesGridOur = new NotesGrid(this, className, 3, 3, "banner_notes_s_all.svg");
+		numNotesGridOur = new NotesNumberGrid(this, className, 3, 3, "banner_no_notes_s_all.svg");
+		wordleGridOur = new WordleGrid(this, className, 3, 3, "banner_wordle_s_all.svg");
+		//		scoreFullOur = new ScoreFull(this, className);
+		//		imageFullOur = new ImageFull(this, className);	
+		//		scoreGridOur = new ScoreGrid(this, className, 3, 3);
+		//		imageGridOur = new ImageGrid(this, className, 3, 3);
 
+
+		notesFullAll = new NotesFull(this, null, "banner_notes_p.svg");
+		numNotesFullAll = new NotesNumberFull(this, null, "banner_no_notes_p.svg");
+		wordleCollectiveAll = new WordleFull(this, null, "banner_wordle_p.svg");
+		notesGridAll = new NotesGrid(this, null, 3, 3, "banner_notes_p_all.svg");
+		numNotesGridAll = new NotesNumberGrid(this, null, 3, 3, "banner_no_notes_p_all.svg");
+		wordleGridAll = new WordleGrid(this, null, 3, 3, "banner_wordle_p_all.svg");
+		//		scoreFullAll = new ScoreFull(this);
+		//		imageFullAll = new ImageFull(this, className);	
+		//		scoreGridAll = new ScoreGrid(this, 3, 3);
+		//		imageGridAll = new ImageGrid(this, 3, 3);	
+
+		//THIS CLASSES
+		screens.add(notesFullOur);
+		screens.add(numNotesFullOur);
+		//		screens.add(scoreFullOur);
+		//		screens.add(imageFullOur);
+		screens.add(wordleCollectiveOur);
+		screens.add(notesGridOur);
+		screens.add(numNotesGridOur);
+		//		screens.add(scoreGridOur);
+		//		screens.add(imageGridOur);
+		screens.add(wordleGridOur);
+
+		//ALL CLASSES
+		screens.add(notesFullAll);
+		screens.add(numNotesFullAll);
+		//		screens.add(scoreFullAll);
+		//		screens.add(imageFullAll);
+		screens.add(wordleCollectiveAll);
+		screens.add(notesGridAll);
+		screens.add(numNotesGridAll);
+		//		screens.add(scoreGridAll);
+		//		screens.add(imageGridAll);
+		screens.add(wordleGridAll);
+
+	}
 }

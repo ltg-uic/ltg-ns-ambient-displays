@@ -14,7 +14,7 @@ import ltg.ns.objects.Screen;
 import processing.core.PVector;
 
 public class NotesGrid extends Screen{
-	
+
 	protected int _numCols, _numRows;
 	protected float _startX, _startY, _xSpace, _ySpace, _widthContent, _heightContent,  _difX, _difY;;
 	protected ArrayList<Note> _notes;
@@ -22,20 +22,21 @@ public class NotesGrid extends Screen{
 	public NotesGrid() {
 		super();
 	}
-	
-	public NotesGrid(AmbientVizMain p, int numOfRows, int numOfColumns) {
+
+	public NotesGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns) {
 		super(p);
+		_className = className;
+		_name = "notes_grid_class_"+className;
 		_numRows = numOfRows;
 		_numCols = numOfColumns;
 		_startX = 0;
-		_difX = 0;
-		_difY = 0;
 		setGridParameters();
 		initNotes();
 	}	
 	
-	public NotesGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns) {
+	public NotesGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns, String bannerURL) {
 		super(p);
+		setShapeBanner(bannerURL);
 		_className = className;
 		_numRows = numOfRows;
 		_numCols = numOfColumns;
@@ -43,8 +44,6 @@ public class NotesGrid extends Screen{
 		setGridParameters();
 		initNotes();
 	}	
-
-	
 
 	public void initNotes(){
 		_notes = new ArrayList<Note>();
@@ -54,77 +53,47 @@ public class NotesGrid extends Screen{
 			_notes.add(n);
 		}
 	}
-	
-	public void sendInitRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			node.put("school", _className);
-			LTGEvent eventInit = new LTGEvent("notes_grid_init", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
-	
-	public void sendUpdateRequest(){
-		if(_p.xmpp){
-			ObjectNode node = JsonNodeFactory.instance.objectNode();
-			node.put("school", _className);
-			LTGEvent eventInit = new LTGEvent("notes_grid_update", null, null, node);
-			_p.eh.generateEvent(eventInit);
-		}
-	}
-	
-	public void update(String note, int i){
-		_notes.get(i).updateNote(note, note, note);
-	}
 
 	public void display(){
 		super.display();
 		if(isActive() && !isLoading()){
-				_p.background(_p.bgColor);
-				for(int i=0; i<_notes.size(); i++){
-					int currentRow = _p.floor(i / _numCols);
-					int currentCol = i % _numCols;
-					//PVector loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY);
-					
-					PVector loc = new PVector();
-					if(currentRow == 0){
-						if(currentCol < _numCols-1)
-							loc = new PVector(currentCol*_xSpace + _startX + _difX, currentRow*_ySpace + _startY);
-						else
-							loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY + _difY);
-					}
-					else if(currentRow == _numRows-1){
-						loc = new PVector(currentCol*_xSpace + _startX + _difX, currentRow*_ySpace + _startY);
-					}
-					else{
-						if(currentRow % 2 == 0){
-							if(currentCol < _numCols-1 )
-								loc = new PVector(currentCol*_xSpace + _startX + _difX, currentRow*_ySpace + _startY);
-							else if( currentCol == _numCols-1)
-								loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY + _difY);
-						}
-						else{
-							if(currentCol > 0 )
-								loc = new PVector(currentCol*_xSpace + _startX - _difX, currentRow*_ySpace + _startY);
-							else if( currentCol == 0)
-								loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY + _difY);		
-						}
-					}
-					
-					_notes.get(i).display(loc.x, loc.y);
-				}
-//				
-//				if(checkTime(_p.updateInterval)){
-//					sendUpdateRequest();
-//				}
-				
-				if(checkTime(5000)){
-					shiftRightX();
-					shiftDownY();
-				}
+			_p.background(_p.bgColor);
+			for(int i=0; i<_notes.size(); i++){
+				int currentRow = _p.floor(i / _numCols);
+				int currentCol = i % _numCols;
+				PVector loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY);
+
+				//					PVector loc = new PVector();
+				//					if(currentRow == 0){
+				//						if(currentCol < _numCols-1)
+				//							loc = new PVector(currentCol*_xSpace + _startX + _difX, currentRow*_ySpace + _startY);
+				//						else
+				//							loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY + _difY);
+				//					}
+				//					else if(currentRow == _numRows-1){
+				//						loc = new PVector(currentCol*_xSpace + _startX + _difX, currentRow*_ySpace + _startY);
+				//					}
+				//					else{
+				//						if(currentRow % 2 == 0){
+				//							if(currentCol < _numCols-1 )
+				//								loc = new PVector(currentCol*_xSpace + _startX + _difX, currentRow*_ySpace + _startY);
+				//							else if( currentCol == _numCols-1)
+				//								loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY + _difY);
+				//						}
+				//						else{
+				//							if(currentCol > 0 )
+				//								loc = new PVector(currentCol*_xSpace + _startX - _difX, currentRow*_ySpace + _startY);
+				//							else if( currentCol == 0)
+				//								loc = new PVector(currentCol*_xSpace + _startX, currentRow*_ySpace + _startY + _difY);		
+				//						}
+				//					}
+				_notes.get(i).display(loc.x, loc.y);
+			}
+			if(_banner != null){
+				_p.shape(_banner, _width/2, 0.93f*_height, _banner.width*_p.width/_banner.width, _banner.height*_p.height/7.4f/_banner.height);
+			}
 		}	
 	}
-
 
 	public void shiftRightX(){
 		Ani.to(this, 1f, "_difX",+_xSpace, Ani.LINEAR, "onEnd:resetDifs");
@@ -139,22 +108,25 @@ public class NotesGrid extends Screen{
 		_difY = 0;
 		Ani.to(this, 0.2f, "_difX", 0, Ani.LINEAR);
 		Ani.to(this, 0.2f, "_difY", 0, Ani.LINEAR);
-		
+
 		Note tmp = _notes.get(_notes.size()-1);
 		_notes.add(0, tmp);
 		_notes.remove(_notes.size()-1);
 	}
-	
+
 	public void setGridParameters(){
 
 		_xSpace  = _p.width/_numCols;
 		_ySpace  = _p.height/_numRows;
-		
+
 		_startX = _xSpace/2;
 		_startY = _ySpace/2;
-		
+
 		_widthContent = (_p.proportionWidth*_p.width);
 		_heightContent = (_p.proportionHeight*_p.width);
 	}
-	
+
+	public void update(String school, String classname, String group, String note, int i){
+		_notes.get(i).updateNote(school, classname, group, note);
+	}
 }
