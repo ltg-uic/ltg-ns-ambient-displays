@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/jackson-databind-2.2.3.jar"/>
 	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/jackson-core-2.2.3.jar"/>
 	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/jackson-annotations-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/Users/paulogf/Documents/workspaceEclipse/LTG/ltg-ns-ambient-displays/libs/controlP5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

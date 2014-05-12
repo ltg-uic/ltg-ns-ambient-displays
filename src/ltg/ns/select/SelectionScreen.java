@@ -4,15 +4,12 @@ import java.awt.List;
 import java.util.ArrayList;
 import java.util.Set;
 
-import ltg.ns.AmbientVizMain;
-import processing.core.PGraphics;
 import controlP5.ControlEvent;
-import controlP5.ControlFont;
 import controlP5.ControlListener;
 import controlP5.ControlP5;
-import controlP5.Controller;
-import controlP5.ControllerInterface;
 import controlP5.Toggle;
+import ltg.ns.AmbientVizMain;
+import processing.core.PGraphics;
 
 
 public class SelectionScreen {
