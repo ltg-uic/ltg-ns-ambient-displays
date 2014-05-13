@@ -32,10 +32,23 @@ public class AmbientVizMain extends PApplet{
 	protected int numOfChannels = 20;
 	public String className;
 	public String displayID;
+	public boolean startTimer = false;
+	public int startTime = 0;
 
 	private String chatRoom = "nh-test@conference.ltg.evl.uic.edu";
-	private String botUsername = "ns-display-d@ltg.evl.uic.edu";
-	private String botPassword = "ns-display-d";
+	public String botUsername = "ns-display-a@ltg.evl.uic.edu";
+	public String botPassword = "ns-display-a";
+	
+	public String botUsernameA = "ns-display-a@ltg.evl.uic.edu";
+	public String botPasswordA = "ns-display-a";
+	public String botUsernameB = "ns-display-b@ltg.evl.uic.edu";
+	public String botPasswordB = "ns-display-b";
+	public String botUsernameC = "ns-display-c@ltg.evl.uic.edu";
+	public String botPasswordC = "ns-display-c";
+	public String botUsernameD = "ns-display-d@ltg.evl.uic.edu";
+	public String botPasswordD = "ns-display-d";
+	public String botUsernameE = "ns-display-e@ltg.evl.uic.edu";
+	public String botPasswordE = "ns-display-e";
 
 	public MainScreen mainScreen;
 	public ChannelMenu menuOur, menuAll;
@@ -81,16 +94,14 @@ public class AmbientVizMain extends PApplet{
 
 	protected boolean channelOffset = false;
 	public boolean classDisplaySelected = false;
+	public boolean xmppConnected = false;
+
 
 	protected int currentChannel = -1;
 
 	
 	
 	public void setup(){
-		botPassword = args[0];
-		botUsername = args[0]+"@ltg.evl.uic.edu";
-		System.out.println(args[0]);
-
 		updater = new Updater(this);		
 		size(displayWidth, displayHeight);
 		background(bgColor);
@@ -99,25 +110,23 @@ public class AmbientVizMain extends PApplet{
 		Ani.init(this);
 		normalFont = loadFont("HelveticaNeue-100.vlw");
 		boldFont = loadFont("HelveticaNeue-Bold-100.vlw");
-
 		borderFullChannels = (int) (0.05f*width);
 		borderGridChannels = (int) (0.05f*width/2);
-
-		registerEventHandlers();
-
+		//registerEventHandlers();
 		mainScreen = new MainScreen(this);
-
-		
 		classDisplaySelector = new SelectionScreen(this);
 
 	}
 
 	public void draw(){
-		if(classDisplaySelected){
+		if(classDisplaySelected && xmppConnected){
 			mainScreen.display();
 			for(Screen s : screens){
 				s.display();
 			}
+		}
+		else if(classDisplaySelected && !xmppConnected){
+			checkTimer();
 		}
 		else{
 			classDisplaySelector.display(width/2, height/2);
@@ -133,6 +142,18 @@ public class AmbientVizMain extends PApplet{
 				goToMenu();	
 			}
 		}	
+	}
+	
+	
+	public void checkTimer(){
+		if(startTimer){
+			int current = millis();
+			if(abs(current-startTime) > 3000){
+				xmppConnected = true;
+				sendGeneralInitMessage();
+			}
+		}
+		
 	}
 
 	public void channelSelected(int channel){
@@ -193,10 +214,11 @@ public class AmbientVizMain extends PApplet{
 
 	public static void main(String args[]) {
 		System.out.println("Starting ambient displays");
-		PApplet.main(new String[] { "--present", "ltg.ns.AmbientVizMain", args[0]});
+//		PApplet.main(new String[] { "--present", "ltg.ns.AmbientVizMain", args[0]});
+		PApplet.main(new String[] { "--present", "ltg.ns.AmbientVizMain"});
 	}
 
-	protected void registerEventHandlers(){
+	public void registerEventHandlers(){
 		if(xmpp){
 			eh = new SingleChatLTGEventHandler(botUsername, botPassword, chatRoom);
 
@@ -312,9 +334,10 @@ public class AmbientVizMain extends PApplet{
 			//				updater.imageGridInit(e);
 			//			}
 			//		});	
-
-
+			
 			eh.runAsynchronously();
+			startTime = millis();
+			startTimer = true;
 		}
 	}
 	

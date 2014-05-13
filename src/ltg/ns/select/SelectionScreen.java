@@ -48,10 +48,11 @@ public class SelectionScreen {
 		_cp5Classes.addToggle("ben").addListener(classListener).setCaptionLabel("ben").setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.31f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
 		_cp5Classes.addToggle("amanda").addListener(classListener).setCaptionLabel("amanda").setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.38f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
 		
-		_cp5Displays.addToggle("DisplayA").setCaptionLabel("A").addListener(displaysListener).setValue(true).setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.6f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
-		_cp5Displays.addToggle("DisplayB").setCaptionLabel("B").addListener(displaysListener).setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.7f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
-		_cp5Displays.addToggle("DisplayC").setCaptionLabel("C").addListener(displaysListener).setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.8f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
-		_cp5Displays.addToggle("DisplayD").setCaptionLabel("D").addListener(displaysListener).setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.9f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
+		_cp5Displays.addToggle("DisplayA").setCaptionLabel("A").addListener(displaysListener).setValue(true).setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.55f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
+		_cp5Displays.addToggle("DisplayB").setCaptionLabel("B").addListener(displaysListener).setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.65f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
+		_cp5Displays.addToggle("DisplayC").setCaptionLabel("C").addListener(displaysListener).setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.75f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
+		_cp5Displays.addToggle("DisplayD").setCaptionLabel("D").addListener(displaysListener).setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.85f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
+		_cp5Displays.addToggle("DisplayE").setCaptionLabel("E").addListener(displaysListener).setSize((int)(0.05f*_width), (int)(0.05f*_width)).setPosition(0.95f*_width, 0.3f*_height).getCaptionLabel().setSize((int)(0.02f*_width));
 
 		_cp5Button.addButton("Done").addListener(buttonListener).setSize((int)(0.1f*_width), (int)(0.05f*_width)).setPosition(0.45f*_width, 0.7f*_height).getCaptionLabel().setSize((int)(0.02f*_width)).align(ControlP5.CENTER, ControlP5.CENTER);
 	}
@@ -94,8 +95,41 @@ public class SelectionScreen {
 			_cp5Classes.dispose();
 			_cp5Displays.dispose();
 			_p.classDisplaySelected = true;
-			_p.sendGeneralInitMessage();
-			System.out.println(_p.className + " : " + _p.displayID);
+			
+//			_p.sendGeneralInitMessage();
+		
+			switch (_p.displayID) {
+			case "A":
+				_p.botUsername = _p.botUsernameA;
+				_p.botPassword = _p.botPasswordA;
+				break;
+				
+			case "B":
+				_p.botUsername = _p.botUsernameB;
+				_p.botPassword = _p.botPasswordB;
+				break;
+				
+			case "C":
+				_p.botUsername = _p.botUsernameC;
+				_p.botPassword = _p.botPasswordC;
+				break;
+				
+			case "D":
+				_p.botUsername = _p.botUsernameD;
+				_p.botPassword = _p.botPasswordD;
+				break;
+				
+			case "E":
+				_p.botUsername = _p.botUsernameE;
+				_p.botPassword = _p.botPasswordE;
+				break;
+
+			default:
+				break;
+			}
+			
+			_p.registerEventHandlers();
+			//System.out.println(_p.className + " : " + _p.displayID);
 		}
 	}
 

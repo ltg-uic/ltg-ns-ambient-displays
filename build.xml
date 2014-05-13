@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="ltg-ns-ambient-displays">
+                      <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+    <path id="ltg-ns-ambient-displays.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="libs/dom4j-1.6.1.jar"/>
+        <pathelement location="libs/junit-3.8.2.jar"/>
+        <pathelement location="libs/log4j-1.2.14.jar"/>
+        <pathelement location="libs/ltg-java-event-handler-2.0.0.jar"/>
+        <pathelement location="libs/simple-java-xmpp-client-2.0.0.jar"/>
+        <pathelement location="core.jar"/>
+        <pathelement location="libs/ani.jar"/>
+        <pathelement location="libs/cue.language.jar"/>
+        <pathelement location="libs/jsoup-1.7.2.jar"/>
+        <pathelement location="libs/WordCram.jar"/>
+        <pathelement location="libs/smack-3.4.1-0cec571.jar"/>
+        <pathelement location="libs/smackx-3.4.1-0cec571.jar"/>
+        <pathelement location="libs/jsonj-1.42-SNAPSHOT.jar"/>
+        <pathelement location="libs/jackson-databind-2.2.3.jar"/>
+        <pathelement location="libs/jackson-core-2.2.3.jar"/>
+        <pathelement location="libs/jackson-annotations-2.2.3.jar"/>
+        <pathelement location="libs/controlP5.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="ltg-ns-ambient-displays.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="AmbientVizMain (3)">
+        <java classname="sun.applet.AppletViewer" dir="." failonerror="true" fork="yes">
+            <arg line="AmbientVizMain (3).html"/>
+            <classpath refid="ltg-ns-ambient-displays.classpath"/>
+        </java>
+    </target>
+    <target name="AmbientVizMain (4)">
+        <java classname="ltg.ns.AmbientVizMain" failonerror="true" fork="yes">
+            <classpath refid="ltg-ns-ambient-displays.classpath"/>
+        </java>
+    </target>
+    
+    <taskdef name="bundleapp"
+    classname="com.oracle.appbundler.AppBundlerTask"
+    classpath="lib/appbundler-1.0.jar" />
+    
+    <target name="bundle-NSDisplay">
+        <bundleapp outputdirectory="."
+            name="NSDisplay"
+            displayname="AmbientDisplay"
+            identifier="ltg.ns.AmbientVizMain"
+            mainclassname="ltg.ns.AmbientVizMain">
+            <runtime dir="${env.JAVA_HOME}" />
+            <classpath file="ltg-ns-ambient-displays.jar"/>
+        </bundleapp>
+    </target>
+
+</project>
