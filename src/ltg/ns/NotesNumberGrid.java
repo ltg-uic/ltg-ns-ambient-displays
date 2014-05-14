@@ -21,7 +21,7 @@ public class NotesNumberGrid extends Screen{
 	public NotesNumberGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns, String bannerURL) {
 		super(p);
 		setShapeBanner(bannerURL);
-		_className = className;
+		if(className!=null) _className = className;
 		_name = "notes_number_grid_class_"+className;
 		_lastChanged = 0;
 		_numRows = numOfRows;

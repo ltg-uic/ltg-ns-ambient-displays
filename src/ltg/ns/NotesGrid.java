@@ -25,7 +25,7 @@ public class NotesGrid extends Screen{
 
 	public NotesGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns) {
 		super(p);
-		_className = className;
+		if(className!=null) _className = className;
 		_name = "notes_grid_class_"+className;
 		_numRows = numOfRows;
 		_numCols = numOfColumns;
@@ -37,7 +37,8 @@ public class NotesGrid extends Screen{
 	public NotesGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns, String bannerURL) {
 		super(p);
 		setShapeBanner(bannerURL);
-		_className = className;
+		if(className!=null) _className = className;
+		_name = "notes_grid_class_"+className;
 		_numRows = numOfRows;
 		_numCols = numOfColumns;
 		_startX = 0;

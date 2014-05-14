@@ -26,7 +26,7 @@ public class ScoreFull extends Screen {
 	
 	public ScoreFull(AmbientVizMain p, String className){
 		super(p);
-		_className = className;
+		if(className!=null) _className = className;
 		_scoreBoard = new ScoreBoard(_p, 10);
 		_scoreBoard.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
 		_active = false;

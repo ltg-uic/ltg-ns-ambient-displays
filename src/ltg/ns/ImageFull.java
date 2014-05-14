@@ -28,7 +28,7 @@ public class ImageFull extends Screen {
 	
 	public ImageFull(AmbientVizMain p, String className) {
 		super(p);
-		_className = className;
+		if(className!=null) _className = className;
 		_imageSet = new ImageSet(_p, 4);
 		_imageSet.setDimensions(_width-_p.borderFullChannels, _height-_p.borderFullChannels);
 	}

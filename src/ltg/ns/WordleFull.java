@@ -19,7 +19,7 @@ public class WordleFull extends Screen{
 
 	public WordleFull(AmbientVizMain p, String className, String bannerURL) {
 		super(p);
-		_className = className;
+		if(className!=null) _className = className;
 		_name = "wordle_full_class_"+className;
 		setShapeBanner(bannerURL);
 		_wordle = new Wordle(p);

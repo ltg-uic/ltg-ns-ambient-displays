@@ -15,7 +15,7 @@ public class NotesNumberFull extends Screen {
 
 	public NotesNumberFull(AmbientVizMain p, String className, String bannerURL) {
 		super(p);
-		_className = className;
+		if(className!=null) _className = className;
 		_name = "notes_number_full_class_"+className;
 		setShapeBanner(bannerURL);
 		_noteCount = new NoteCount(_p);

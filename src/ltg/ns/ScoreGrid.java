@@ -31,7 +31,7 @@ public class ScoreGrid extends Screen {
 	
 	public ScoreGrid(AmbientVizMain p, String className, int numOfRows, int numOfColumns) {
 		super(p);
-		_className = className;
+		if(className!=null) _className = className;
 		_numRows = numOfRows;
 		_numCols = numOfColumns;
 		setGridParameters();
